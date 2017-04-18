@@ -1,12 +1,14 @@
-package ru.rooh.bsgdx;
+package ru.rooh.bsgdx.ui;
 
 /**
  * Created by rooh on 4/18/17.
  */
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import ru.rooh.bsgdx.Main;
 
 public class SimpleButton {
 
@@ -19,6 +21,8 @@ public class SimpleButton {
 
     private boolean isPressed = false;
 
+    private int scale;
+
     public SimpleButton(float x, float y, float width, float height,
                         TextureRegion buttonUp, TextureRegion buttonDown) {
         this.x = x;
@@ -28,7 +32,9 @@ public class SimpleButton {
         this.buttonUp = buttonUp;
         this.buttonDown = buttonDown;
 
-        bounds = new Rectangle(x, y, width, height);
+        this.scale = (int)Gdx.graphics.getWidth()/136;
+
+        bounds = new Rectangle(x, y, width * scale, height * scale);
 
     }
 
@@ -42,12 +48,15 @@ public class SimpleButton {
         } else {
             batcher.draw(buttonUp, x, y, width, height);
         }
+
+        //Gdx.app.log("Button", isPressed + "");
     }
 
     public boolean isTouchDown(int screenX, int screenY) {
 
         if (bounds.contains(screenX, screenY)) {
             isPressed = true;
+            Main.changeScreen("game");
             return true;
         }
 

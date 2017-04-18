@@ -9,27 +9,32 @@ public class Main extends Game {
 	SpriteBatch batch;
 	Texture img;
 	private static Game game;
+	//public static int scale;
+
 	
 	@Override
 	public void create () {
 		Gdx.app.log("Main", "created");
-		AssetLoader.load();
+		ru.rooh.bsgdx.assets.AssetLoader.load();
 		game = this;
-		setScreen(new GameScreen("menu"));
+		setScreen(new mScreen("menu"));
+		//scale = (int)Gdx.graphics.getWidth()/136;
+
+		//Gdx.app.log("Main", scale + "");
 	}
 	@Override
 	public void dispose() {
 		super.dispose();
-		AssetLoader.dispose();
+		ru.rooh.bsgdx.assets.AssetLoader.dispose();
 	}
-	public static void changeScreen(String s){
+	public static void changeScreen(String n){
 		game.getScreen().dispose();
-		game.setScreen(new GameScreen(s));
+		game.setScreen(new mScreen(n));
 	}
 	public static String getScreenState(){
-		GameScreen s = (GameScreen) game.getScreen();
+		mScreen s = (mScreen) game.getScreen();
 
-		Gdx.app.log("Name", s.getRendererName());
+		//Gdx.app.log("Name", s.getRendererName());
 		return s.getRendererName();
 	}
 }

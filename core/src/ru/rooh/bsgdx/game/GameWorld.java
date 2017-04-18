@@ -1,4 +1,6 @@
-package ru.rooh.bsgdx;
+package ru.rooh.bsgdx.game;
+
+import ru.rooh.bsgdx.objects.Ship;
 
 /**
  * Created by rooh on 4/18/17.

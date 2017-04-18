@@ -1,4 +1,4 @@
-package ru.rooh.bsgdx;
+package ru.rooh.bsgdx.objects;
 
 import com.badlogic.gdx.math.Vector2;
 

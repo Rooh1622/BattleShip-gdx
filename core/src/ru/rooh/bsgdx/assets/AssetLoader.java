@@ -1,4 +1,4 @@
-package ru.rooh.bsgdx;
+package ru.rooh.bsgdx.assets;
 
 /**
  * Created by rooh on 4/18/17.
@@ -18,7 +18,7 @@ public class AssetLoader {
     public static Animation shipAnimation;
     public static TextureRegion ship, shipDown, shipUp;
 
-    public static TextureRegion skullUp, skullDown, bar;
+    public static TextureRegion skullUp, skullDown, bar,playButtonUp,playButtonDown;
 
     public static BitmapFont font, shadow;
 
@@ -47,9 +47,20 @@ public class AssetLoader {
         shipUp = new TextureRegion(texture, 170, 0, 17, 12);
         shipUp.flip(false, true);
 
+        playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
+        playButtonUp.flip(false, true);
+
+        playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
+        playButtonDown.flip(false, true);
+
+
         TextureRegion[] ships = { shipDown, ship, shipUp };
         shipAnimation = new Animation(0.06f, ships);
         shipAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+        //TextureRegion[] playButton = { shipDown, ship, shipUp };
+        //shipAnimation = new Animation(0.06f, ships);
+        //shipAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         skullUp = new TextureRegion(texture, 192, 0, 24, 14);
         // Create by flipping existing skullUp

@@ -1,9 +1,10 @@
-package ru.rooh.bsgdx;
+package ru.rooh.bsgdx.basics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ru.rooh.bsgdx.game.GameWorld;
 
 /**
  * Created by rooh on 4/18/17.
