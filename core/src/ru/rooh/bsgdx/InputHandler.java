@@ -1,5 +1,6 @@
 package ru.rooh.bsgdx;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 /**
@@ -13,6 +14,14 @@ public class InputHandler implements InputProcessor {
     }
     @Override
     public boolean keyDown(int keycode) {
+        switch (keycode){
+            case Input.Keys.ENTER:
+                Main.changeScreen("game");
+                break;
+            case Input.Keys.ESCAPE:
+                Main.changeScreen("menu");
+                break;
+        }
         return false;
     }
 
@@ -28,7 +37,10 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        mShip.onClick();
+        if(Main.getScreenState().equals("game"))
+            mShip.onClick();
+        else
+            Main.changeScreen("game");
         return false;
     }
 

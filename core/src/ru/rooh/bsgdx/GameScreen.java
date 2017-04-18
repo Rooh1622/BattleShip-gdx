@@ -2,27 +2,31 @@ package ru.rooh.bsgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
+
 /**
  * Created by rooh on 4/18/17.
  */
 
 public class GameScreen implements Screen{
     private GameWorld world;
-    private GameRenderer renderer;
+
+
+    private Renderer renderer;
+    private String name;
     private float runTime = 0;
 
-    public GameScreen(){
+    public GameScreen(String r){
         Gdx.app.log("GameScreen", "Attached");
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        float gameWidth = 136;
-        float gameHeight = screenHeight / (screenWidth / gameWidth);
 
-        int midPointY = (int) (gameHeight / 2);
+        this.name = r;
+        if (r.equals("game")) {
 
-        world = new GameWorld(midPointY); // initialize world
-        renderer = new GameRenderer(world, (int) gameHeight, midPointY);
+            world = new GameWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
+            renderer = new GameRenderer(world);
+        } else if(r.equals("menu")){
+            world = new GameWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
+            renderer = new MainMenuRenderer(world);
+        }
 
         Gdx.input.setInputProcessor(new InputHandler(world.getShip()));
     }
@@ -62,6 +66,11 @@ public class GameScreen implements Screen{
 
     @Override
     public void dispose() {
-
+        Gdx.app.log("GameScreen", "Disposed");
     }
+
+    public String getRendererName() {
+        return name;
+    }
+
 }

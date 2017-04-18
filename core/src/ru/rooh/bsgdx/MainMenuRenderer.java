@@ -2,22 +2,18 @@ package ru.rooh.bsgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Created by rooh on 4/18/17.
  */
-public class GameRenderer extends Renderer {
-
-    public GameRenderer(GameWorld world) {
+public class MainMenuRenderer extends Renderer {
+    public MainMenuRenderer(GameWorld world) {
         super(world);
     }
     @Override
     public void render(float runTime) {
 
-        // мы уберем это из цикла далее, для улучшения производительности
-        Ship ship = myWorld.getShip();
 
         // Заполним задний фон одним цветом
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -50,11 +46,6 @@ public class GameRenderer extends Renderer {
 
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
-
-        // Отрисуем птичку на ее координатах. Получим Animation объект из AssetLoader
-        // Передадим runTime переменную чтобы получить текущий кадр.
-        batcher.draw((TextureRegion) AssetLoader.shipAnimation.getKeyFrame(runTime),
-                ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight());
 
 
 

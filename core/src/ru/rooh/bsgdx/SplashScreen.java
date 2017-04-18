@@ -3,7 +3,8 @@ package ru.rooh.bsgdx;
 /**
  * Created by rooh on 4/18/17.
  */
-import aurelienribon.tweenengine.*;
+
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,26 +35,10 @@ public class SplashScreen implements Screen {
         sprite.setSize(sprite.getWidth() * scale, sprite.getHeight() * scale);
         sprite.setPosition((width / 2) - (sprite.getWidth() / 2), (height / 2)
                 - (sprite.getHeight() / 2));
-        setupTween();
+
         batcher = new SpriteBatch();
     }
 
-    private void setupTween() {
-        Tween.registerAccessor(Sprite.class, new SpriteAccessor());
-        manager = new TweenManager();
-
-        TweenCallback cb = new TweenCallback() {
-            @Override
-            public void onEvent(int type, BaseTween<?> source) {
-                game.setScreen(new GameScreen());
-            }
-        };
-
-        Tween.to(sprite, SpriteAccessor.ALPHA, .8f).target(1)
-                .ease(TweenEquations.easeInOutQuad).repeatYoyo(1, .4f)
-                .setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE)
-                .start(manager);
-    }
 
     @Override
     public void render(float delta) {
