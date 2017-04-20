@@ -2,10 +2,14 @@ package ru.rooh.bsgdx.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.assets.AssetLoader;
 import ru.rooh.bsgdx.basics.Renderer;
-import ru.rooh.bsgdx.game.GameWorld;
+import ru.rooh.bsgdx.basics.World;
+import ru.rooh.bsgdx.objects.Background;
+import ru.rooh.bsgdx.objects.ScrollHandler;
 import ru.rooh.bsgdx.ui.SimpleButton;
 
 /**
@@ -13,16 +17,21 @@ import ru.rooh.bsgdx.ui.SimpleButton;
  */
 public class MainMenuRenderer extends Renderer {
     private SimpleButton play;
-    public MainMenuRenderer(GameWorld world) {
+    private ScrollHandler scroller;
+    private Background frontGrass, backGrass;
+    private TextureRegion background;
+
+    public MainMenuRenderer(World world) {
         super(world);
-        play = new SimpleButton(0,0,29,16, AssetLoader.playButtonUp,AssetLoader.playButtonDown);
+        play = new SimpleButton(midPointX, midPointY, 29, 16, AssetLoader.playButtonUp, AssetLoader.playButtonDown);
+        initGameObjects();
+        initAssets();
 
     }
     @Override
     public void render(float runTime) {
 
 
-        // Заполним задний фон одним цветом
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -30,16 +39,8 @@ public class MainMenuRenderer extends Renderer {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Отрисуем Background цвет
-        shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
-        shapeRenderer.rect(0, 0, 136, midPointY + 66);
-
-        // Отрисуем Grass
-        shapeRenderer.setColor(111 / 255.0f, 186 / 255.0f, 45 / 255.0f, 1);
-        shapeRenderer.rect(0, midPointY + 66, 136, 11);
-
-        // Отрисуем Dirt
-        shapeRenderer.setColor(147 / 255.0f, 80 / 255.0f, 27 / 255.0f, 1);
-        shapeRenderer.rect(0, midPointY + 77, 136, 52);
+        shapeRenderer.setColor(135 / 255.0f, 184 / 255.0f, 223 / 255.0f, 1);
+        shapeRenderer.rect(0, 0, Main.gameWidth, midPointY + 66);
 
         // Заканчиваем ShapeRenderer
         shapeRenderer.end();
@@ -49,8 +50,8 @@ public class MainMenuRenderer extends Renderer {
         // Отменим прозрачность
         // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
         batcher.disableBlending();
-        batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
-
+        //batcher.draw(AssetLoader.sea, 0,midPointY/2 , 450* midPointY/243, midPointY);
+        drawGrass();
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
         play.draw(batcher);
@@ -62,6 +63,25 @@ public class MainMenuRenderer extends Renderer {
         batcher.end();
 
     }
+
+    private void initGameObjects() {
+        scroller = ((MenuWorld) myWorld).getScroller();
+        frontGrass = scroller.getFrontGrass();
+        backGrass = scroller.getBackGrass();
+    }
+
+    private void initAssets() {
+        background = AssetLoader.sea;
+    }
+
+    private void drawGrass() {
+        // Отрисовываем траву
+        batcher.draw(background, frontGrass.getX(), frontGrass.getY(),
+                frontGrass.getWidth(), frontGrass.getHeight());
+        batcher.draw(background, backGrass.getX(), backGrass.getY(),
+                backGrass.getWidth(), backGrass.getHeight());
+    }
+
 
     public SimpleButton getPlay() {
         return play;

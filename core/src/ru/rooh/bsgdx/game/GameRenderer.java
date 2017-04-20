@@ -4,24 +4,35 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.assets.AssetLoader;
 import ru.rooh.bsgdx.basics.Renderer;
+import ru.rooh.bsgdx.basics.World;
+import ru.rooh.bsgdx.objects.Background;
+import ru.rooh.bsgdx.objects.ScrollHandler;
 import ru.rooh.bsgdx.objects.Ship;
 
 /**
  * Created by rooh on 4/18/17.
  */
 public class GameRenderer extends Renderer {
+    private ScrollHandler scroller;
+    private Background frontGrass, backGrass;
+    private TextureRegion background;
 
-    public GameRenderer(GameWorld world) {
+    public GameRenderer(World world) {
         super(world);
+
+        initGameObjects();
+        initAssets();
     }
     @Override
     public void render(float runTime) {
 
         // мы уберем это из цикла далее, для улучшения производительности
-        Ship ship = myWorld.getShip();
+        Ship ship = ((GameWorld) myWorld).getShip();
 
+        // Заполним задний фон одним цветом
         // Заполним задний фон одним цветом
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -30,40 +41,53 @@ public class GameRenderer extends Renderer {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Отрисуем Background цвет
-        shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
-        shapeRenderer.rect(0, 0, 136, midPointY + 66);
-
-        // Отрисуем Grass
-        shapeRenderer.setColor(111 / 255.0f, 186 / 255.0f, 45 / 255.0f, 1);
-        shapeRenderer.rect(0, midPointY + 66, 136, 11);
-
-        // Отрисуем Dirt
-        shapeRenderer.setColor(147 / 255.0f, 80 / 255.0f, 27 / 255.0f, 1);
-        shapeRenderer.rect(0, midPointY + 77, 136, 52);
+        shapeRenderer.setColor(135 / 255.0f, 184 / 255.0f, 223 / 255.0f, 1);
+        shapeRenderer.rect(0, 0, Main.gameWidth, midPointY + 66);
 
         // Заканчиваем ShapeRenderer
         shapeRenderer.end();
 
         // Стартуем SpriteBatch
         batcher.begin();
+
+        drawGrass();
         // Отменим прозрачность
         // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
         batcher.disableBlending();
-        batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
+        //batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
 
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
 
         // Отрисуем птичку на ее координатах. Получим Animation объект из AssetLoader
         // Передадим runTime переменную чтобы получить текущий кадр.
-        batcher.draw((TextureRegion) AssetLoader.shipAnimation.getKeyFrame(runTime),
-                ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight());
+        //batcher.draw((TextureRegion) AssetLoader.shipAnimation.getKeyFrame(runTime),
+        //       ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight());
 
 
-        AssetLoader.shadow.draw(batcher, "hello world", 0, 0);
-        AssetLoader.font.draw(batcher, "hello world", 0, 0);
+        //AssetLoader.shadow.draw(batcher, "hello world", 0, 0);
+        //AssetLoader.font.draw(batcher, "hello world", 0, 0);
         // Заканчиваем SpriteBatch
         batcher.end();
 
     }
+
+    private void initGameObjects() {
+        scroller = myWorld.getScroller();
+        frontGrass = scroller.getFrontGrass();
+        backGrass = scroller.getBackGrass();
+    }
+
+    private void initAssets() {
+        background = AssetLoader.sea;
+    }
+
+    private void drawGrass() {
+        // Отрисовываем траву
+        batcher.draw(background, frontGrass.getX(), frontGrass.getY(),
+                frontGrass.getWidth(), frontGrass.getHeight());
+        batcher.draw(background, backGrass.getX(), backGrass.getY(),
+                backGrass.getWidth(), backGrass.getHeight());
+    }
+
 }

@@ -4,29 +4,30 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import ru.rooh.bsgdx.game.GameWorld;
 
 /**
  * Created by rooh on 4/18/17.
  */
 public class Renderer {
 
-    protected GameWorld myWorld;
+    protected World myWorld;
     protected OrthographicCamera cam;
     protected ShapeRenderer shapeRenderer;
 
     protected SpriteBatch batcher;
 
     protected int midPointY;
+    protected int midPointX;
     protected int gameHeight;
 
-    public Renderer(GameWorld world) {
+    public Renderer(World world) {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float gameWidth = 136;
         float gameHeight = screenHeight / (screenWidth / gameWidth);
 
-        int midPointY = (int) (gameHeight / 2);
+        this.midPointY = (int) (gameHeight / 2);
+        this.midPointX = (int) (gameWidth / 2);
         myWorld = world;
 
         this.gameHeight = (int)gameHeight;

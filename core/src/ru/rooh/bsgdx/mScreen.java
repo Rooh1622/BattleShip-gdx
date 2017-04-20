@@ -2,11 +2,13 @@ package ru.rooh.bsgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.game.GameInputHandler;
 import ru.rooh.bsgdx.game.GameRenderer;
 import ru.rooh.bsgdx.game.GameWorld;
 import ru.rooh.bsgdx.menu.MainMenuRenderer;
 import ru.rooh.bsgdx.menu.MenuInputHandler;
+import ru.rooh.bsgdx.menu.MenuWorld;
 import ru.rooh.bsgdx.ui.SimpleButton;
 
 /**
@@ -14,7 +16,7 @@ import ru.rooh.bsgdx.ui.SimpleButton;
  */
 
 public class mScreen implements Screen{
-    private GameWorld world;
+    private World world;
 
 
     private ru.rooh.bsgdx.basics.Renderer renderer;
@@ -29,9 +31,9 @@ public class mScreen implements Screen{
 
             world = new GameWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
             renderer = new GameRenderer(world);
-            Gdx.input.setInputProcessor(new GameInputHandler(world.getShip()));
+            Gdx.input.setInputProcessor(new GameInputHandler(((GameWorld) world).getShip()));
         } else if(r.equals("menu")){
-            world = new GameWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
+            world = new MenuWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
             renderer = new MainMenuRenderer(world);
 
             SimpleButton s = ((MainMenuRenderer) renderer).getPlay();

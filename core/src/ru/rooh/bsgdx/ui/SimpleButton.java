@@ -21,20 +21,21 @@ public class SimpleButton {
 
     private boolean isPressed = false;
 
-    private int scale;
+    private float scale;
 
     public SimpleButton(float x, float y, float width, float height,
                         TextureRegion buttonUp, TextureRegion buttonDown) {
-        this.x = x;
-        this.y = y;
+
+        this.scale = Gdx.graphics.getWidth() / 136;
+        this.x = x - width / 2;
+        this.y = y - height / 2;
         this.width = width;
         this.height = height;
         this.buttonUp = buttonUp;
         this.buttonDown = buttonDown;
 
-        this.scale = (int)Gdx.graphics.getWidth()/136;
 
-        bounds = new Rectangle(x, y, width * scale, height * scale);
+        bounds = new Rectangle(this.x * Main.scale, this.y * Main.scale, width * scale, height * scale);
 
     }
 

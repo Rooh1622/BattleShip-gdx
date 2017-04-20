@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-    public static Texture texture;
-    public static TextureRegion bg, grass;
+    public static Texture texture, bg_sea;
+    public static TextureRegion bg, grass, sea;
 
     public static Animation shipAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -31,6 +31,12 @@ public class AssetLoader {
 
         texture = new Texture(Gdx.files.internal("core/assets/data/texture.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        bg_sea = new Texture(Gdx.files.internal("core/assets/data/sea.png"));
+        bg_sea.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        sea = new TextureRegion(bg_sea, 0, 0, 450, 486);
+        sea.flip(false, true);
 
         bg = new TextureRegion(texture, 0, 0, 136, 43);
         bg.flip(false, true);

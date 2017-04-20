@@ -1,5 +1,6 @@
 package ru.rooh.bsgdx.menu;
 
+import com.badlogic.gdx.Gdx;
 import ru.rooh.bsgdx.basics.InputHandler;
 import ru.rooh.bsgdx.ui.SimpleButton;
 
@@ -19,7 +20,7 @@ public class MenuInputHandler extends InputHandler {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         play.isTouchDown(screenX,screenY);
 
-       // Gdx.app.log("Handler", screenX + " " + screenY);
+        Gdx.app.log("Handler", screenX + " " + screenY);
         return false;
     }
     @Override
