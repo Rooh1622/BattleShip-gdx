@@ -34,7 +34,7 @@ public class Renderer {
         this.midPointY = midPointY;
 
         cam = new OrthographicCamera();
-        cam.setToOrtho(true, 137, 204);
+        cam.setToOrtho(true, 144, 256);
 
         batcher = new SpriteBatch();
         // привяжите batcher к камере

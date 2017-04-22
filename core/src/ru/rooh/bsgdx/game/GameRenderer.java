@@ -9,6 +9,7 @@ import ru.rooh.bsgdx.assets.AssetLoader;
 import ru.rooh.bsgdx.basics.Renderer;
 import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.objects.Background;
+import ru.rooh.bsgdx.objects.Map;
 import ru.rooh.bsgdx.objects.ScrollHandler;
 import ru.rooh.bsgdx.objects.Ship;
 
@@ -31,6 +32,7 @@ public class GameRenderer extends Renderer {
 
         // мы уберем это из цикла далее, для улучшения производительности
         Ship ship = ((GameWorld) myWorld).getShip();
+        Map map = ((GameWorld) myWorld).getMap();
 
         // Заполним задний фон одним цветом
         // Заполним задний фон одним цветом
@@ -61,8 +63,10 @@ public class GameRenderer extends Renderer {
 
         // Отрисуем птичку на ее координатах. Получим Animation объект из AssetLoader
         // Передадим runTime переменную чтобы получить текущий кадр.
-        //batcher.draw((TextureRegion) AssetLoader.shipAnimation.getKeyFrame(runTime),
-        //       ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight());
+        batcher.draw((TextureRegion) AssetLoader.map,
+                map.getX(), map.getY(), map.getWidth(), map.getHeight());
+        batcher.draw((TextureRegion) AssetLoader.ship,
+                ship.getX(), ship.getY(), ship.getWidth() * 3, ship.getHeight() * 3);
 
 
         //AssetLoader.shadow.draw(batcher, "hello world", 0, 0);

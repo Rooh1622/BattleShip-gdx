@@ -23,7 +23,7 @@ public class MainMenuRenderer extends Renderer {
 
     public MainMenuRenderer(World world) {
         super(world);
-        play = new SimpleButton(midPointX, midPointY, 29, 16, AssetLoader.playButtonUp, AssetLoader.playButtonDown);
+        play = new SimpleButton(midPointX, midPointY * 0.5f, 29, 16, AssetLoader.playButtonUp, AssetLoader.playButtonDown);
         initGameObjects();
         initAssets();
 
@@ -40,7 +40,7 @@ public class MainMenuRenderer extends Renderer {
 
         // Отрисуем Background цвет
         shapeRenderer.setColor(135 / 255.0f, 184 / 255.0f, 223 / 255.0f, 1);
-        shapeRenderer.rect(0, 0, Main.gameWidth, midPointY + 66);
+        shapeRenderer.rect(0, 0, Main.gameWidth + 1, midPointY + 66);
 
         // Заканчиваем ShapeRenderer
         shapeRenderer.end();

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Main extends Game {
-    public static float scale;
+    public static float scaleX, scaleY;
     public static float midPointY, midPointX, gameWidth, gameHeight;
     private static Game game;
     SpriteBatch batch;
@@ -15,7 +15,8 @@ public class Main extends Game {
     public static void changeScreen(String n) {
         game.getScreen().dispose();
 
-        scale = Gdx.graphics.getWidth() / 136;
+        scaleX = Gdx.graphics.getWidth() / 144f;
+        scaleY = Gdx.graphics.getHeight() / 256f;
         game.setScreen(new mScreen(n));
     }
 
@@ -30,10 +31,11 @@ public class Main extends Game {
 	public void create () {
 		Gdx.app.log("Main", "created");
 		ru.rooh.bsgdx.assets.AssetLoader.load();
-        scale = Gdx.graphics.getWidth() / 136;
+        scaleX = Gdx.graphics.getWidth() / 144f;
+        scaleY = Gdx.graphics.getHeight() / 256f;
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        this.gameWidth = 136;
+        this.gameWidth = 144;
         this.gameHeight = screenHeight / (screenWidth / gameWidth);
 
         this.midPointY = (int) (gameHeight / 2);

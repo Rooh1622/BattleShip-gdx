@@ -26,17 +26,23 @@ public class SimpleButton {
     public SimpleButton(float x, float y, float width, float height,
                         TextureRegion buttonUp, TextureRegion buttonDown) {
 
-        this.scale = Gdx.graphics.getWidth() / 136;
-        this.x = x - width / 2;
-        this.y = y - height / 2;
+        this.scale = Gdx.graphics.getWidth() / 136f;
+        this.x = x - width / 2f;
+        this.y = y - height / 2f;
         this.width = width;
         this.height = height;
         this.buttonUp = buttonUp;
         this.buttonDown = buttonDown;
 
 
-        bounds = new Rectangle(this.x * Main.scale, this.y * Main.scale, width * scale, height * scale);
+        bounds = new Rectangle(this.x * Main.scaleX, this.y * Main.scaleY, width * Main.scaleX, height * Main.scaleY);
+        Gdx.app.log("Button", bounds.toString() + " " + x + "-" + y + "_" + width + "_" + height + " " + this.toString());
 
+    }
+
+    @Override
+    public String toString() {
+        return x + " " + y + " " + width + " " + height + " " + Main.scaleX + " " + Main.scaleY;
     }
 
     public boolean isClicked(int screenX, int screenY) {
@@ -54,7 +60,7 @@ public class SimpleButton {
     }
 
     public boolean isTouchDown(int screenX, int screenY) {
-
+        Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
         if (bounds.contains(screenX, screenY)) {
             isPressed = true;
             Main.changeScreen("game");
