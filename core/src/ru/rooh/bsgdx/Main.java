@@ -5,17 +5,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.json.simple.JSONObject;
+import ru.rooh.bsgdx.objects.Ship;
 import ru.rooh.bsgdx.utils.AssetLoader;
 import ru.rooh.bsgdx.utils.Server;
+
+import java.util.ArrayList;
 
 public class Main extends Game {
     public static float scaleX, scaleY;
     public static float midPointY, midPointX, gameWidth, gameHeight;
     public static Server server;
     public static JSONObject json;
+    public static ArrayList<Ship> Ships = new ArrayList<Ship>();
     private static Game game;
     SpriteBatch batch;
 	Texture img;
+
 
     public static void changeScreen(String n) {
         game.getScreen().dispose();

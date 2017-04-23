@@ -36,7 +36,7 @@ public class mScreen implements Screen{
 
             StatusBar bar = (renderer).getStatusBar();
             Map map = ((GameWorld) world).getMap();
-            Gdx.input.setInputProcessor(new GameInputHandler(((GameWorld) world).getShip(), bar, map));
+            Gdx.input.setInputProcessor(new GameInputHandler(((GameWorld) world).getDecorativeShip(), bar, map));
         } else if(r.equals("menu")){
             world = new MenuWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
             renderer = new MainMenuRenderer(world);

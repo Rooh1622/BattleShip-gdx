@@ -1,80 +1,44 @@
 package ru.rooh.bsgdx.objects;
 
-import com.badlogic.gdx.math.Vector2;
-
+/**
+ * Created by rooh on 4/23/17.
+ */
 public class Ship {
+    //public int x,y,x2,y2,x3,y3,x4,y4 = -1;
+    public int c, c2, c3, c4 = -1;
 
-    private Vector2 position;
-    private Vector2 velocity;
-    private Vector2 acceleration;
-
-    private float rotation; // For handling bird rotation
-    private int width;
-    private int height;
-    private Boolean moving = false;
-
-    private float lastVelocity;
-
-    public Ship(float x, float y, int width, int height) {
-        this.width = width;
-        this.height = height;
-        position = new Vector2(x, y);
-        velocity = new Vector2(0, 0);
-        acceleration = new Vector2(0, 460);
+    public Ship(int c, int c2, int c3, int c4) {
+        this.c = c;
+        this.c2 = c2;
+        this.c3 = c3;
+        this.c4 = c4;
     }
 
-    public void update(float delta) {
-
-        //velocity.add(acceleration.cpy().scl(delta));
-
-        /*if (velocity.y > 200) {
-            velocity.y = 200;
-        }*/
-        if (moving) {
-            if (position.y >= 222 && position.y <= 230) {
-                velocity.y = -10;
-            } else if (position.y <= 170 && position.y >= 160) {
-                velocity.y = 10;
-            }
-            lastVelocity = velocity.y;
-        } else velocity.y = 0;
-        //if(!moving) velocity.y = 0;
-        //Gdx.app.log("Ship", position.y + "");
-        position.add(velocity.cpy().scl(delta));
-
+    public Boolean checkCord(int c) {
+        if (c == -1) return false;
+        if (this.c == c) return true;
+        if (this.c2 == c) return true;
+        if (this.c3 == c) return true;
+        if (this.c4 == c) return true;
+        return false;
     }
 
-    public void onClick() {
-        //velocity.y = -140;
-        /*if(moving) moving = false;
-                else moving = true;*/
-        moving = !moving;
-        if (lastVelocity < 0)
-            velocity.y = -10;
-        else
-            velocity.y = 10;
 
-        //Gdx.app.log("Ship", moving + "");
-    }
 
-    public float getX() {
-        return position.x;
-    }
+    /*public Ship(int c,int c2,int c3,int c4, int x,int y,int x2,int y2,int x3,int y3,int x4,int y4){
+        this.c = c;
+        this.c2 = c2;
+        this.c3 = c3;
+        this.c4 = c4;
+        this.x = x;
+        this.x2 = x2;
+        this.x3 = x3;
+        this.x4 = x4;
+        this.y = y;
+        this.y2 = y2;
+        this.y3 = y3;
+        this.y4 = y4;
 
-    public float getY() {
-        return position.y;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
+    }*/
 }
+

@@ -2,10 +2,16 @@ package ru.rooh.bsgdx.utils;
 
 import com.badlogic.gdx.Gdx;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import ru.rooh.bsgdx.Main;
+import ru.rooh.bsgdx.objects.Ship;
 
 import java.net.URI;
 import java.nio.channels.NotYetConnectedException;
+import java.util.Iterator;
 
 /**
  * Created by rooh on 4/23/17.
@@ -28,6 +34,21 @@ public class Server extends org.java_websocket.client.WebSocketClient {
     @Override
     public void onMessage(String s) {
         Gdx.app.log("Server", s);
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray array = (JSONArray) parser.parse(s);
+            Iterator<JSONObject> iterator = array.iterator();
+            while (iterator.hasNext()) {
+                JSONObject jsonShip = iterator.next();
+                //System.out.println("> " + )
+                Main.Ships.add(new Ship(((Long) jsonShip.getOrDefault("cHash", Long.valueOf(-1))).intValue(),
+                        ((Long) jsonShip.getOrDefault("c2Hash", Long.valueOf(-1))).intValue(),
+                        ((Long) jsonShip.getOrDefault("c3Hash", Long.valueOf(-1))).intValue(),
+                        ((Long) jsonShip.getOrDefault("c4Hash", Long.valueOf(-1))).intValue()));
+            }
+        } catch (ParseException ex) {
+
+        }
     }
 
     @Override

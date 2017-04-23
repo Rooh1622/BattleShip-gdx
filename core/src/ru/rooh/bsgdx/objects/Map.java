@@ -2,8 +2,11 @@ package ru.rooh.bsgdx.objects;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.rooh.bsgdx.Main;
+import ru.rooh.bsgdx.utils.AssetLoader;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,7 @@ public class Map {
 
 
     private int _id;
+    private ArrayList<Integer> show = new ArrayList<Integer>();
 
     private ArrayList<mRect> table;
     private Boolean moving = false;
@@ -42,31 +46,63 @@ public class Map {
                     table.add(new mRect(x + 3 + i * 10 + i + i - 1, y + 3 + j * 10 + j + j - 1, 10, 10));
 
 
-                else if (i == 0 || i == 9) table.add(new mRect(x + 3 + i * 10 + i, y + 3 + j * 10 + j + j - 1, 11, 10));
-                else if (j == 0 || j == 9) table.add(new mRect(x + 3 + i * 10 + i + i - 1, y + 3 + j * 10 + j, 10, 11));
+                else if (i == 0) table.add(new mRect(x + 3 + i * 10 + i, y + 3 + j * 10 + j + j - 1, 11, 10));
+                else if (i == 9) table.add(new mRect(x + 3 + i * 10 + i + 7, y + 3 + j * 10 + j + j - 1, 11, 10));
+                else if (j == 0) table.add(new mRect(x + 3 + i * 10 + i + i - 1, y + 3 + j * 10 + j, 10, 11));
+                else if (j == 9) table.add(new mRect(x + 3 + i * 10 + i + i - 1, y + 3 + j * 10 + j + 7, 10, 11));
                 else table.add(new mRect(x + 3 + i * 11 + i - 1, y + 3 + j * 11 + j - 1, 11, 11));
             }
+        }/*
+        for (mRect r: table) {
+            //Gdx.app.log(r.id + "", r.toString());
+
+        }*/
+    }
+
+    public void draw(SpriteBatch batcher) {
+
+
+        batcher.draw((TextureRegion) AssetLoader.map, x, y, width, height);
+        for (int i : show) {
+            batcher.draw((TextureRegion) AssetLoader.cross, table.get(i).x + 1, table.get(i).y + 1, 10, 10);
         }
         /*for (mRect r: table) {
-            Gdx.app.log(r.id + "", r.toString());
-
+            if(r.checked)
+                batcher.draw((TextureRegion) AssetLoader.cross, r.x + 1, r.y + 1, 10, 10);
         }*/
-    }
-
-    public void update(float delta) {
-
-        //velocity.add(acceleration.cpy().scl(delta));
-
-        /*if (velocity.y > 200) {
-            velocity.y = 200;
-        }*/
-
 
     }
 
+    public void showAll(SpriteBatch batcher) {
+
+        for (Ship s : Main.Ships) {
+            if (s.c4 != -1) {
+                batcher.draw((TextureRegion) AssetLoader.cross, table.get(s.c4).x + 1, table.get(s.c).y + 1, 10, 10);
+            }
+            if (s.c3 != -1) {
+
+                batcher.draw((TextureRegion) AssetLoader.cross, table.get(s.c3).x + 1, table.get(s.c).y + 1, 10, 10);
+            }
+            if (s.c2 != -1) {
+
+                batcher.draw((TextureRegion) AssetLoader.cross, table.get(s.c2).x + 1, table.get(s.c).y + 1, 10, 10);
+            }
+            if (s.c != -1)
+                batcher.draw((TextureRegion) AssetLoader.cross, table.get(s.c).x + 1, table.get(s.c).y + 1, 10, 10);
+        }
+    }
     public void onClick(int screenX, int screenY) {
+        int id = -1;
         for (mRect r : table) {
-            r.getId(screenX / Main.scaleX, screenY / Main.scaleY);
+            int cid = r.getId(screenX / Main.scaleX, screenY / Main.scaleY);
+            if (cid != -1) {
+                id = cid;
+                break;
+            }
+        }
+        if (id == -1) return;
+        for (Ship s : Main.Ships) {
+            if (s.checkCord(id)) show.add(id);
         }
     }
 
@@ -92,16 +128,20 @@ public class Map {
 
     private class mRect extends Rectangle {
         public int id;
+        public Boolean checked = false;
 
         public mRect(float x, float y, float w, float h) {
             super(x, y, w, h);
             this.id = _id++;
         }
 
-        public void getId(float x, float y) {
-            if (this.contains(x, y))
+        public int getId(float x, float y) {
+            if (this.contains(x, y)) {
                 Gdx.app.log("ID", this.id + "");
-
+                return id;
+                //checked = !checked;
+            }
+            return -1;
         }
     }
 }
