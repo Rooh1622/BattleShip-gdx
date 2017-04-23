@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ru.rooh.bsgdx.Main;
-import ru.rooh.bsgdx.assets.AssetLoader;
 import ru.rooh.bsgdx.basics.Renderer;
 import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.objects.Background;
 import ru.rooh.bsgdx.objects.ScrollHandler;
 import ru.rooh.bsgdx.ui.SimpleButton;
+import ru.rooh.bsgdx.ui.StatusBar;
+import ru.rooh.bsgdx.utils.AssetLoader;
 
 /**
  * Created by rooh on 4/18/17.
@@ -55,6 +56,7 @@ public class MainMenuRenderer extends Renderer {
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
         play.draw(batcher);
+        statusBar.draw(batcher);
 
 
        // AssetLoader.shadow.draw(batcher, "hello world", 0, 0);
@@ -85,5 +87,9 @@ public class MainMenuRenderer extends Renderer {
 
     public SimpleButton getPlay() {
         return play;
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
     }
 }

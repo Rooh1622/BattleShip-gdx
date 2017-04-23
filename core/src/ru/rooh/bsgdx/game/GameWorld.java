@@ -18,7 +18,7 @@ public class GameWorld extends World {
 
     public GameWorld(int midPointY) {
         ship = new Ship(10, Main.gameHeight / 10 * 8, 17, 12);
-        map = new Map((Main.gameWidth - 123) / 2, Main.gameHeight / 20 * 1, 123, 123);
+        map = new Map((Main.gameWidth - 123) / 2, Main.gameHeight / 20 + 5, 123, 123);
         scroller = new ScrollHandler(Main.gameHeight / 10 * 5, -10);
     }
     public void update(float delta) {

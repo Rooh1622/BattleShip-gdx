@@ -9,7 +9,9 @@ import ru.rooh.bsgdx.game.GameWorld;
 import ru.rooh.bsgdx.menu.MainMenuRenderer;
 import ru.rooh.bsgdx.menu.MenuInputHandler;
 import ru.rooh.bsgdx.menu.MenuWorld;
+import ru.rooh.bsgdx.objects.Map;
 import ru.rooh.bsgdx.ui.SimpleButton;
+import ru.rooh.bsgdx.ui.StatusBar;
 
 /**
  * Created by rooh on 4/18/17.
@@ -31,13 +33,17 @@ public class mScreen implements Screen{
 
             world = new GameWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
             renderer = new GameRenderer(world);
-            Gdx.input.setInputProcessor(new GameInputHandler(((GameWorld) world).getShip()));
+
+            StatusBar bar = (renderer).getStatusBar();
+            Map map = ((GameWorld) world).getMap();
+            Gdx.input.setInputProcessor(new GameInputHandler(((GameWorld) world).getShip(), bar, map));
         } else if(r.equals("menu")){
             world = new MenuWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
             renderer = new MainMenuRenderer(world);
 
             SimpleButton s = ((MainMenuRenderer) renderer).getPlay();
-            Gdx.input.setInputProcessor(new MenuInputHandler(s));
+            StatusBar bar = ((MainMenuRenderer) renderer).getStatusBar();
+            Gdx.input.setInputProcessor(new MenuInputHandler(s, bar));
         }
 
     }

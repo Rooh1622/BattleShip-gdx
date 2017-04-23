@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ru.rooh.bsgdx.Main;
-import ru.rooh.bsgdx.assets.AssetLoader;
 import ru.rooh.bsgdx.basics.Renderer;
 import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.objects.Background;
 import ru.rooh.bsgdx.objects.Map;
 import ru.rooh.bsgdx.objects.ScrollHandler;
 import ru.rooh.bsgdx.objects.Ship;
+import ru.rooh.bsgdx.utils.AssetLoader;
 
 /**
  * Created by rooh on 4/18/17.
@@ -52,6 +52,7 @@ public class GameRenderer extends Renderer {
         // Стартуем SpriteBatch
         batcher.begin();
 
+        statusBar.draw(batcher);
         drawGrass();
         // Отменим прозрачность
         // Это хорошо для производительности, когда отрисовываем картинки без прозрачности

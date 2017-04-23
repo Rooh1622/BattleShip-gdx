@@ -1,6 +1,5 @@
 package ru.rooh.bsgdx.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class Ship {
@@ -40,7 +39,7 @@ public class Ship {
             lastVelocity = velocity.y;
         } else velocity.y = 0;
         //if(!moving) velocity.y = 0;
-        Gdx.app.log("Ship", position.y + "");
+        //Gdx.app.log("Ship", position.y + "");
         position.add(velocity.cpy().scl(delta));
 
     }

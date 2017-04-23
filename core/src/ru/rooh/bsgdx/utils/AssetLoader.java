@@ -1,4 +1,4 @@
-package ru.rooh.bsgdx.assets;
+package ru.rooh.bsgdx.utils;
 
 /**
  * Created by rooh on 4/18/17.
@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-    public static Texture texture, bg_sea, tShip, tMap;
-    public static TextureRegion bg, grass, sea, map;
+    public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
+    public static TextureRegion bg, grass, sea, map, statusBar;
 
     public static Animation shipAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -40,6 +40,12 @@ public class AssetLoader {
 
         tShip = new Texture(Gdx.files.internal("data/ship.png"));
         tShip.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        tstatusBar = new Texture(Gdx.files.internal("data/bar.png"));
+        tstatusBar.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        statusBar = new TextureRegion(tstatusBar, 0, 0, 144, 15);
+        statusBar.flip(false, true);
 
         sea = new TextureRegion(bg_sea, 0, 0, 450, 486);
         sea.flip(false, true);

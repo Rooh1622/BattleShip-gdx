@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ru.rooh.bsgdx.ui.StatusBar;
 
 /**
  * Created by rooh on 4/18/17.
@@ -15,6 +16,8 @@ public class Renderer {
     protected ShapeRenderer shapeRenderer;
 
     protected SpriteBatch batcher;
+
+    protected StatusBar statusBar;
 
     protected int midPointY;
     protected int midPointX;
@@ -42,8 +45,15 @@ public class Renderer {
 
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
+
+        statusBar = new StatusBar();
     }
+
     public void render(float runTime) {
 
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
     }
 }

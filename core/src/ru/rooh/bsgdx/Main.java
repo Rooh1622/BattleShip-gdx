@@ -4,10 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.json.simple.JSONObject;
+import ru.rooh.bsgdx.utils.AssetLoader;
+import ru.rooh.bsgdx.utils.Server;
 
 public class Main extends Game {
     public static float scaleX, scaleY;
     public static float midPointY, midPointX, gameWidth, gameHeight;
+    public static Server server;
+    public static JSONObject json;
     private static Game game;
     SpriteBatch batch;
 	Texture img;
@@ -27,10 +32,27 @@ public class Main extends Game {
         return s.getRendererName();
     }
 
+    public static void connectionCallback() {
+
+        json = new JSONObject();
+        json.put("type", "test");
+        Main.server.send(Main.json.toJSONString());
+    }
+
 	@Override
 	public void create () {
 		Gdx.app.log("Main", "created");
-		ru.rooh.bsgdx.assets.AssetLoader.load();
+        try {
+            server = new Server();
+
+            server.connect();
+            //server.send("{type: 'test'}");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Gdx.app.log("Main", server.getReadyState().toString());
+
+        AssetLoader.load();
         scaleX = Gdx.graphics.getWidth() / 144f;
         scaleY = Gdx.graphics.getHeight() / 256f;
         float screenWidth = Gdx.graphics.getWidth();
@@ -49,6 +71,6 @@ public class Main extends Game {
     @Override
 	public void dispose() {
 		super.dispose();
-		ru.rooh.bsgdx.assets.AssetLoader.dispose();
-	}
+        AssetLoader.dispose();
+    }
 }

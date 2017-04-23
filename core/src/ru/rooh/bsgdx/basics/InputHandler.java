@@ -3,12 +3,14 @@ package ru.rooh.bsgdx.basics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import ru.rooh.bsgdx.Main;
+import ru.rooh.bsgdx.ui.StatusBar;
 
 /**
  * Created by rooh on 4/18/17.
  */
 public class InputHandler implements InputProcessor {
 
+    protected StatusBar statusBar;
     public InputHandler() {
     }
     @Override
@@ -36,7 +38,8 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-       
+
+        statusBar.onClick(screenX, screenY);
         return false;
     }
 
