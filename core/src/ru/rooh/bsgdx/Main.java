@@ -17,6 +17,8 @@ public class Main extends Game {
     public static Server server;
     public static JSONObject json;
     public static ArrayList<Ship> Ships = new ArrayList<Ship>();
+    public static int myId = -1;
+    public static int enId = -1;
     private static Game game;
     SpriteBatch batch;
 	Texture img;
@@ -40,7 +42,7 @@ public class Main extends Game {
     public static void connectionCallback() {
 
         json = new JSONObject();
-        json.put("type", "test");
+        json.put("type", "connection");
         Main.server.send(Main.json.toJSONString());
     }
 

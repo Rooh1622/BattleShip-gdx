@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
-    public static TextureRegion bg, grass, sea, map, statusBar, cross;
+    public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss;
 
     public static Animation shipAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -61,6 +61,15 @@ public class AssetLoader {
 
         cross = new TextureRegion(texture, 216, 0, 10, 10);
         cross.flip(false, true);
+
+        blueCross = new TextureRegion(texture, 226, 0, 10, 10);
+        blueCross.flip(false, true);
+
+        miss = new TextureRegion(texture, 216, 10, 10, 10);
+        miss.flip(false, true);
+
+        blueMiss = new TextureRegion(texture, 226, 10, 10, 10);
+        blueMiss.flip(false, true);
 
         shipDown = new TextureRegion(tShip, 0, 0, 1920, 900);
         shipDown.flip(false, true);

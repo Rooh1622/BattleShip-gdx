@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import org.json.simple.JSONObject;
 import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.utils.AssetLoader;
 
@@ -13,16 +14,14 @@ import java.util.ArrayList;
 public class Map {
 
 
+    public static ArrayList<Dot> show = new ArrayList<Dot>();
+    public static ArrayList<Dot> show_e = new ArrayList<Dot>();
     private float rotation; // For handling bird rotation
     private float x;
     private float y;
     private int width;
     private int height;
-
-
     private int _id;
-    private ArrayList<Integer> show = new ArrayList<Integer>();
-
     private ArrayList<mRect> table;
     private Boolean moving = false;
 
@@ -63,8 +62,11 @@ public class Map {
 
 
         batcher.draw((TextureRegion) AssetLoader.map, x, y, width, height);
-        for (int i : show) {
-            batcher.draw((TextureRegion) AssetLoader.cross, table.get(i).x + 1, table.get(i).y + 1, 10, 10);
+        for (Dot i : show) {
+            batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
+        }
+        for (Dot i : show_e) {
+            batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
         }
         /*for (mRect r: table) {
             if(r.checked)
@@ -97,13 +99,20 @@ public class Map {
             int cid = r.getId(screenX / Main.scaleX, screenY / Main.scaleY);
             if (cid != -1) {
                 id = cid;
+                JSONObject json = new JSONObject();
+                json.put("type", "turn");
+                json.put("client", "java");
+                json.put("tile", id);
+                json.put("myId", Main.myId);
+                json.put("enId", Main.enId);
+                Main.server.send(json.toJSONString());
                 break;
             }
-        }
+        }/*
         if (id == -1) return;
         for (Ship s : Main.Ships) {
             if (s.checkCord(id)) show.add(id);
-        }
+        }*/
     }
 
     public float getX() {
@@ -145,3 +154,4 @@ public class Map {
         }
     }
 }
+
