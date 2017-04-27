@@ -10,6 +10,7 @@ public class Dot {
     TextureRegion texture;
 
     public Dot(int id, Boolean show, int color) {
+
         this.id = id;
         this.show = show;
         this.color = color;
@@ -19,4 +20,5 @@ public class Dot {
         else if (color == 4) texture = AssetLoader.blueMiss;
 
     }
+
 }

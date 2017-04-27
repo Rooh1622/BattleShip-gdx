@@ -58,12 +58,93 @@ public class Map {
         }*/
     }
 
+    public static void showConturOndestroy(int x, int y, int c, int id) { // c stands for color
+
+        int edge = 0;
+        if (x == 0) edge = 1;//up
+        else if (x == 9) edge = 2;//down
+        else if (y == 0) edge = 3;//left
+        else if (y == 9) edge = 4;//right
+        switch (edge) {
+            case 3:
+                //console.log(edge);
+
+                createDot(x + 1, y + 1, true, c);
+                createDot(x, y + 1, true, c);
+                createDot(x - 1, y + 1, true, c);
+                createDot(x + 1, y, true, c);
+                createDot(x - 1, y, true, c);
+                break;
+            case 4:
+                createDot(x + 1, y - 1, true, c);
+                createDot(x, y - 1, true, c);
+                createDot(x - 1, y - 1, true, c);
+                createDot(x + 1, y, true, c);
+                createDot(x - 1, y, true, c);
+                break;
+            case 1:
+
+                createDot(x + 1, y, true, c);
+                if (y != 0) {
+
+                    createDot(x, y - 1, true, c);
+                    createDot(x + 1, y - 1, true, c);
+                }
+                if (y != 9) {
+                    createDot(x, y + 1, true, c);
+                    createDot(x + 1, y + 1, true, c);
+                }
+                break;
+            case 2:
+                createDot(x - 1, y, true, c);
+                if (y != 0) {
+                    createDot(x, y - 1, true, c);
+                    createDot(x - 1, y - 1, true, c);
+                }
+                if (y != 9) {
+                    createDot(x, y + 1, true, c);
+                    createDot(x - 1, y + 1, true, c);
+
+                }
+                break;
+            default:
+
+                createDot(x + 1, y + 1, true, c);
+                createDot(x, y + 1, true, c);
+                createDot(x - 1, y + 1, true, c);
+                createDot(x + 1, y, true, c);
+                createDot(x - 1, y, true, c);
+                createDot(x + 1, y - 1, true, c);
+                createDot(x, y - 1, true, c);
+                createDot(x - 1, y - 1, true, c);
+                break;
+        }
+    }
+
+    private static int xyToId(int x, int y) {
+        return x * 10 + y;
+    }
+
+    private static void createDot(int x, int y, Boolean lol, int c) {
+        Dot d = new Dot(xyToId(x, y), true, c);
+        for (Dot d2 : Map.show) {
+            if (d2.id == d.id) {
+
+                System.out.println("Contains");
+                return;
+            }
+        }
+        Map.show.add(d);
+
+    }
+
     public void draw(SpriteBatch batcher) {
 
 
         batcher.draw((TextureRegion) AssetLoader.map, x, y, width, height);
         for (Dot i : show) {
-            batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
+            if (i.id >= 0 && i.id <= 99)
+                batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
         }
         for (Dot i : show_e) {
             batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
@@ -93,6 +174,7 @@ public class Map {
                 batcher.draw((TextureRegion) AssetLoader.cross, table.get(s.c).x + 1, table.get(s.c).y + 1, 10, 10);
         }
     }
+
     public void onClick(int screenX, int screenY) {
         int id = -1;
         for (mRect r : table) {
@@ -153,5 +235,6 @@ public class Map {
             return -1;
         }
     }
+
 }
 

@@ -2,6 +2,7 @@ package ru.rooh.bsgdx.utils;
 
 import com.badlogic.gdx.Gdx;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -11,6 +12,7 @@ import ru.rooh.bsgdx.objects.Map;
 
 import java.net.URI;
 import java.nio.channels.NotYetConnectedException;
+import java.util.Iterator;
 
 /**
  * Created by rooh on 4/23/17.
@@ -48,11 +50,30 @@ public class Server extends org.java_websocket.client.WebSocketClient {
             } else if (jsonObject.get("type").equals("turn")) {
 
                 System.out.println("> turn " + jsonObject.get("result"));
-                if (jsonObject.get("result").equals("hit") || jsonObject.get("result").equals("sink")) {
+                if (jsonObject.get("result").equals("hit")) {
                     int tile = ((Long) jsonObject.get("tile")).intValue();
                     System.out.println("> turn" + jsonObject.get("result") + " tile " + tile);
-                    if (tile != -1)
-                        Map.show.add(new Dot(tile, true, 1));
+                    if (tile != -1) Map.show.add(new Dot(tile, true, 1));
+                } else if (jsonObject.get("result").equals("sink")) {
+                    int tile = ((Long) jsonObject.get("hTile")).intValue();
+                    System.out.println("> turn" + jsonObject.get("result") + " tile " + tile);
+                    //if (tile != -1)
+                    Map.show.add(new Dot(tile, true, 1));
+                    JSONArray ja = (JSONArray) parser.parse(jsonObject.get("tile").toString());
+
+                    //ArrayList<Integer> tile = new ArrayList<Integer>();
+                    Iterator<Long> iterator = ja.iterator();
+                    while (iterator.hasNext()) {
+                        int cur_tile = iterator.next().intValue();
+                        System.out.println("> " + cur_tile);
+                        Map.showConturOndestroy((int) cur_tile / 10, cur_tile % 10, 3, cur_tile);
+
+
+                    }
+
+                    System.out.println("> turn" + jsonObject.get("result") + " tile multiple");
+                    //if (tile != -1)
+
                 } else if (jsonObject.get("result").equals("miss")) {
                     int tile = ((Long) jsonObject.get("tile")).intValue();
                     System.out.println("> turn" + jsonObject.get("result") + " tile " + tile);
