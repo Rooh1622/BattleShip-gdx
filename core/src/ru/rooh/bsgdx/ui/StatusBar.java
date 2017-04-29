@@ -1,5 +1,6 @@
 package ru.rooh.bsgdx.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,7 +15,7 @@ public class StatusBar {
 
     private TextureRegion bg;
 
-    private Rectangle settings;
+    private Rectangle settings, internet;
 
     private boolean isPressed = false;
 
@@ -30,6 +31,7 @@ public class StatusBar {
 
 
         settings = new Rectangle(0, 0, 15 * Main.scaleX, 15 * Main.scaleY);
+        internet = new Rectangle(125 * Main.scaleX, 0, 19 * Main.scaleX, 15 * Main.scaleY);
         //Gdx.app.log("Button", bounds.toString() + " " + x + "-" + y + "_" + width + "_" + height + " " + this.toString());
 
     }
@@ -43,9 +45,19 @@ public class StatusBar {
         return settings.contains(screenX, screenY);
     }
 
-    public void draw(SpriteBatch batcher) {
+    public void draw(SpriteBatch batcher, float runTime) {
         batcher.draw(bg, x, y, width, height);
-
+        switch (Main.server_status) {
+            case 0:
+                batcher.draw((TextureRegion) AssetLoader.iNone, 127, 1, 12, 13);
+                break;
+            case 1:
+                batcher.draw((TextureRegion) AssetLoader.internetAnimation.getKeyFrame(runTime), 127, 1, 12, 13);
+                break;
+            case 2:
+                batcher.draw((TextureRegion) AssetLoader.iFull, 127, 1, 12, 13);
+                break;
+        }
         //Gdx.app.log("Button", isPressed + "");
     }
 
@@ -54,6 +66,12 @@ public class StatusBar {
         if (settings.contains(screenX, screenY)) {
             isPressed = true;
             Main.changeScreen("menu");
+            return true;
+        }
+
+        if (internet.contains(screenX, screenY)) {
+            Gdx.app.log("Button", internet.contains(screenX, screenY) + " lol");
+            Main.server.reconnect();
             return true;
         }
 

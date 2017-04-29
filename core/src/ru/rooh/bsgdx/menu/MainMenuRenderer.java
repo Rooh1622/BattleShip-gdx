@@ -56,7 +56,7 @@ public class MainMenuRenderer extends Renderer {
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
         play.draw(batcher);
-        statusBar.draw(batcher);
+        statusBar.draw(batcher, runTime);
 
 
        // AssetLoader.shadow.draw(batcher, "hello world", 0, 0);

@@ -15,6 +15,7 @@ public class Main extends Game {
     public static float scaleX, scaleY;
     public static float midPointY, midPointX, gameWidth, gameHeight;
     public static Server server;
+    public static int server_status = 0; // 0 - not connected; 1 - connecting; 2 - connected;
     public static JSONObject json;
     public static ArrayList<Ship> Ships = new ArrayList<Ship>();
     public static int myId = -1;
@@ -53,7 +54,6 @@ public class Main extends Game {
             server = new Server();
 
             server.connect();
-            //server.send("{type: 'test'}");
         } catch (Exception e) {
             e.printStackTrace();
         }

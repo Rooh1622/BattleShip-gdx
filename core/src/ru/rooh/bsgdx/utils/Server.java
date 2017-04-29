@@ -18,8 +18,9 @@ import java.util.Iterator;
  * Created by rooh on 4/23/17.
  */
 public class Server extends org.java_websocket.client.WebSocketClient {
+    public static int delay = 1;
     public Server() throws Exception {
-        super(new URI("ws://127.0.0.1:8081"));
+        super(new URI("ws://192.168.1.146:8081"));
         // this.connect();
 
     }
@@ -29,6 +30,8 @@ public class Server extends org.java_websocket.client.WebSocketClient {
 
         Gdx.app.log("Server", "opened: " + serverHandshake.toString());
         Main.connectionCallback();
+
+        Main.server_status = 2;
 
     }
 
@@ -81,17 +84,37 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     Map.show.add(new Dot(tile, true, 3));
                 }
             } else if (jsonObject.get("type").equals("turn_from_e")) {
+
                 System.out.println("> turn_from_e " + jsonObject.get("result"));
-                if (jsonObject.get("result").equals("hit") || jsonObject.get("result").equals("sink")) {
+                if (jsonObject.get("result").equals("hit")) {
                     int tile = ((Long) jsonObject.get("tile")).intValue();
+                    System.out.println("> turn_from_e" + jsonObject.get("result") + " tile " + tile);
+                    if (tile != -1) Map.show_e.add(new Dot(tile, true, 2));
+                } else if (jsonObject.get("result").equals("sink")) {
+                    int tile = ((Long) jsonObject.get("hTile")).intValue();
                     System.out.println("> turn_from_e" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
                     Map.show.add(new Dot(tile, true, 2));
+                    JSONArray ja = (JSONArray) parser.parse(jsonObject.get("tile").toString());
+
+                    //ArrayList<Integer> tile = new ArrayList<Integer>();
+                    Iterator<Long> iterator = ja.iterator();
+                    while (iterator.hasNext()) {
+                        int cur_tile = iterator.next().intValue();
+                        System.out.println("> " + cur_tile);
+                        Map.showConturOndestroy((int) cur_tile / 10, cur_tile % 10, 4, cur_tile);
+
+
+                    }
+
+                    System.out.println("> turn_from_e" + jsonObject.get("result") + " tile multiple");
+                    //if (tile != -1)
+
                 } else if (jsonObject.get("result").equals("miss")) {
                     int tile = ((Long) jsonObject.get("tile")).intValue();
                     System.out.println("> turn_from_e" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
-                    Map.show.add(new Dot(tile, true, 4));
+                    Map.show.add(new Dot(tile, true, 3));
                 }
             }
 
@@ -114,6 +137,8 @@ public class Server extends org.java_websocket.client.WebSocketClient {
     public void onClose(int i, String s, boolean b) {
 
         Gdx.app.log("Server", "closed: " + s);
+
+        Main.server_status = 0;
     }
 
     @Override
@@ -121,7 +146,35 @@ public class Server extends org.java_websocket.client.WebSocketClient {
 
         Gdx.app.log("Server", "error");
         e.printStackTrace();
+        Main.server_status = 1;
+
+        delay += 3;
+        try {
+            System.out.println(delay);
+            Thread.sleep(1000 * delay);
+
+            Main.server = new Server();
+            Main.server.connect();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
+
+    public void reconnect() {
+        Main.server_status = 1;
+
+        delay = 1;
+        try {
+            System.out.println(delay);
+
+            Main.server = new Server();
+            Main.server.connect();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void send(String s) throws NotYetConnectedException {

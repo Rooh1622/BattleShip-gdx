@@ -52,7 +52,7 @@ public class GameRenderer extends Renderer {
         // Стартуем SpriteBatch
         batcher.begin();
 
-        statusBar.draw(batcher);
+        statusBar.draw(batcher, runTime);
         drawGrass();
         // Отменим прозрачность
         // Это хорошо для производительности, когда отрисовываем картинки без прозрачности

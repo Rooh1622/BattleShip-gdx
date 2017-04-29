@@ -10,11 +10,12 @@ import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.utils.AssetLoader;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Map {
 
 
-    public static ArrayList<Dot> show = new ArrayList<Dot>();
+    public static CopyOnWriteArrayList<Dot> show = new CopyOnWriteArrayList<Dot>();
     public static ArrayList<Dot> show_e = new ArrayList<Dot>();
     private float rotation; // For handling bird rotation
     private float x;
@@ -24,6 +25,8 @@ public class Map {
     private int _id;
     private ArrayList<mRect> table;
     private Boolean moving = false;
+    private Boolean drawingField = true;
+    private Rectangle bounds;
 
     private float lastVelocity;
 
@@ -51,7 +54,9 @@ public class Map {
                 else if (j == 9) table.add(new mRect(x + 3 + i * 10 + i + i - 1, y + 3 + j * 10 + j + 7, 10, 11));
                 else table.add(new mRect(x + 3 + i * 11 + i - 1, y + 3 + j * 11 + j - 1, 11, 11));
             }
-        }/*
+        }
+        bounds = new Rectangle(x + width - 32, y + height + 5, 32, 20);
+        /*
         for (mRect r: table) {
             //Gdx.app.log(r.id + "", r.toString());
 
@@ -128,12 +133,20 @@ public class Map {
     private static void createDot(int x, int y, Boolean lol, int c) {
         Dot d = new Dot(xyToId(x, y), true, c);
         for (Dot d2 : Map.show) {
+            if (d2.equals(d)) {
+
+                System.out.println("equals");
+                return;
+            }
             if (d2.id == d.id) {
 
                 System.out.println("Contains");
                 return;
             }
         }
+        // d.show(true);
+
+        System.out.println("ADDED");
         Map.show.add(d);
 
     }
@@ -142,12 +155,17 @@ public class Map {
 
 
         batcher.draw((TextureRegion) AssetLoader.map, x, y, width, height);
-        for (Dot i : show) {
-            if (i.id >= 0 && i.id <= 99)
+        batcher.draw(AssetLoader.switchBtn, x + width - 32, y + height + 5, 32, 20);
+        // TODO java.util.ConcurrentModificationException
+        if (drawingField) {
+            for (Dot i : show) {
+                if (i.id >= 0 && i.id <= 99)
+                    batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
+            }
+        } else {
+            for (Dot i : show_e) {
                 batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
-        }
-        for (Dot i : show_e) {
-            batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
+            }
         }
         /*for (mRect r: table) {
             if(r.checked)
@@ -176,18 +194,26 @@ public class Map {
     }
 
     public void onClick(int screenX, int screenY) {
+        if (bounds.contains(screenX / Main.scaleX, screenY / Main.scaleY)) {
+            drawingField = !drawingField;
+            return;
+        }
         int id = -1;
         for (mRect r : table) {
             int cid = r.getId(screenX / Main.scaleX, screenY / Main.scaleY);
+
             if (cid != -1) {
+
                 id = cid;
+                Map.show.add(new Dot(id, true, 1));
+                Map.show_e.add(new Dot(id, true, 2));
                 JSONObject json = new JSONObject();
                 json.put("type", "turn");
                 json.put("client", "java");
                 json.put("tile", id);
                 json.put("myId", Main.myId);
                 json.put("enId", Main.enId);
-                Main.server.send(json.toJSONString());
+                //Main.server.send(json.toJSONString()); //TODO debug : server off
                 break;
             }
         }/*
