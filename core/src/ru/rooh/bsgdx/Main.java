@@ -16,11 +16,13 @@ public class Main extends Game {
     public static float midPointY, midPointX, gameWidth, gameHeight;
     public static Server server;
     public static int server_status = 0; // 0 - not connected; 1 - connecting; 2 - connected;
+    public static int game_status = 0; // 0 - not connected; 1 - queued; 2 - playing; 3 - interrupted;
     public static JSONObject json;
     public static ArrayList<Ship> Ships = new ArrayList<Ship>();
     public static int myId = -1;
     public static int enId = -1;
-    private static Game game;
+    public static String session = "";
+    public static Game game;
     SpriteBatch batch;
 	Texture img;
 

@@ -13,7 +13,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
-    public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, switchBtn, transparent;
+    public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, transparent;
+    public static TextureRegion switchBtn, switchBtnDark, pvpBtn;
+    public static TextureRegion blue, red;
 
     public static Animation shipAnimation, internetAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -33,6 +35,12 @@ public class AssetLoader {
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
+        //Buttons
+        pvpBtn = new TextureRegion(texture, 0, 99, 29, 16);
+        pvpBtn.flip(false, true);
+
+
+        //
         bg_sea = new Texture(Gdx.files.internal("data/sea.png"));
         bg_sea.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
@@ -69,6 +77,9 @@ public class AssetLoader {
         switchBtn = new TextureRegion(texture, 60, 83, 32, 20);
         switchBtn.flip(false, true);
 
+        switchBtnDark = new TextureRegion(texture, 92, 83, 32, 20);
+        switchBtnDark.flip(false, true);
+
         miss = new TextureRegion(texture, 216, 10, 10, 10);
         miss.flip(false, true);
 
@@ -93,6 +104,8 @@ public class AssetLoader {
         playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
         playButtonDown.flip(false, true);
 
+        blue = new TextureRegion(texture, 240, 0, 3, 3);
+        red = new TextureRegion(texture, 237, 0, 3, 3);
 
         TextureRegion[] ships = { shipDown, ship, shipUp };
         shipAnimation = new Animation(0.06f, ships);
@@ -123,7 +136,7 @@ public class AssetLoader {
         //shipAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         TextureRegion[] internets = {i1, i2, i3, i4, i5, i6};
-        internetAnimation = new Animation(0.06f, internets);
+        internetAnimation = new Animation(0.075f, internets);
         internetAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         skullUp = new TextureRegion(texture, 192, 0, 24, 14);

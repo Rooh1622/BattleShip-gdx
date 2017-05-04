@@ -25,7 +25,9 @@ public class Map {
     private int _id;
     private ArrayList<mRect> table;
     private Boolean moving = false;
+    private Boolean pressed = false;
     private Boolean drawingField = true;
+    private Boolean clickable = true;
     private Rectangle bounds;
 
     private float lastVelocity;
@@ -63,7 +65,11 @@ public class Map {
         }*/
     }
 
-    public static void showConturOndestroy(int x, int y, int c, int id) { // c stands for color
+    private static int xyToId(int x, int y) {
+        return x * 10 + y;
+    }
+
+    public void showConturOndestroy(int x, int y, int c, int id) { // c stands for color
 
         int edge = 0;
         if (x == 0) edge = 1;//up
@@ -126,28 +132,51 @@ public class Map {
         }
     }
 
-    private static int xyToId(int x, int y) {
-        return x * 10 + y;
-    }
-
-    private static void createDot(int x, int y, Boolean lol, int c) {
+    private void createDot(int x, int y, Boolean lol, int c) {
         Dot d = new Dot(xyToId(x, y), true, c);
-        for (Dot d2 : Map.show) {
-            if (d2.equals(d)) {
+        switch (c) {
+            case 1:
+            case 3:
 
-                System.out.println("equals");
-                return;
-            }
-            if (d2.id == d.id) {
+                for (Dot d2 : Map.show) {
+                    if (d2.equals(d)) {
 
-                System.out.println("Contains");
-                return;
-            }
+                        System.out.println("equals");
+                        return;
+                    }
+                    if (d2.id == d.id) {
+
+                        System.out.println("Contains");
+                        return;
+                    }
+                }
+                // d.show(true);
+
+                System.out.println("ADDED");
+                table.get(d.id).checked = true;
+                Map.show.add(d);
+                break;
+            case 2:
+            case 4:
+
+                for (Dot d2 : Map.show_e) {
+                    if (d2.equals(d)) {
+
+                        System.out.println("equals");
+                        return;
+                    }
+                    if (d2.id == d.id) {
+
+                        System.out.println("Contains");
+                        return;
+                    }
+                }
+                // d.show(true);
+
+                System.out.println("ADDED");
+                Map.show_e.add(d);
+
         }
-        // d.show(true);
-
-        System.out.println("ADDED");
-        Map.show.add(d);
 
     }
 
@@ -155,6 +184,10 @@ public class Map {
 
 
         batcher.draw((TextureRegion) AssetLoader.map, x, y, width, height);
+        /*if(pressed)  batcher.draw(AssetLoader.switchBtnDark, x + width - 32, y + height + 5, 32, 20);
+        else  batcher.draw(AssetLoader.switchBtn, x + width - 32, y + height + 5, 32, 20);
+        pressed = false;*/
+
         batcher.draw(AssetLoader.switchBtn, x + width - 32, y + height + 5, 32, 20);
         // TODO java.util.ConcurrentModificationException
         if (drawingField) {
@@ -167,6 +200,7 @@ public class Map {
                 batcher.draw(i.texture, table.get(i.id).x + 1, table.get(i.id).y + 1, 10, 10);
             }
         }
+        drawCorners(batcher, drawingField);
         /*for (mRect r: table) {
             if(r.checked)
                 batcher.draw((TextureRegion) AssetLoader.cross, r.x + 1, r.y + 1, 10, 10);
@@ -174,6 +208,20 @@ public class Map {
 
     }
 
+    public void drawCorners(SpriteBatch batcher, Boolean b) {
+        if (b) {
+
+            batcher.draw(AssetLoader.red, x, y, 3, 3);
+            batcher.draw(AssetLoader.red, x + width - 3, y, 3, 3);
+            batcher.draw(AssetLoader.red, x + width - 3, y + height - 3, 3, 3);
+            batcher.draw(AssetLoader.red, x, y + height - 3, 3, 3);
+        } else {
+            batcher.draw(AssetLoader.blue, x, y, 3, 3);
+            batcher.draw(AssetLoader.blue, x + width - 3, y, 3, 3);
+            batcher.draw(AssetLoader.blue, x + width - 3, y + height - 3, 3, 3);
+            batcher.draw(AssetLoader.blue, x, y + height - 3, 3, 3);
+        }
+    }
     public void showAll(SpriteBatch batcher) {
 
         for (Ship s : Main.Ships) {
@@ -196,24 +244,29 @@ public class Map {
     public void onClick(int screenX, int screenY) {
         if (bounds.contains(screenX / Main.scaleX, screenY / Main.scaleY)) {
             drawingField = !drawingField;
+            clickable = !clickable;
+            pressed = true;
             return;
         }
+        if (!clickable) return;
         int id = -1;
         for (mRect r : table) {
             int cid = r.getId(screenX / Main.scaleX, screenY / Main.scaleY);
-
-            if (cid != -1) {
+            //Gdx.app.log("GAME_STATUS" , Main.game_status + " " + !r.checked);
+            if (cid != -1 && !r.checked && Main.game_status == 2) {
 
                 id = cid;
-                Map.show.add(new Dot(id, true, 1));
-                Map.show_e.add(new Dot(id, true, 2));
+                //Map.show.add(new Dot(id, true, 1));
+                //Map.show_e.add(new Dot(id, true, 2));
                 JSONObject json = new JSONObject();
                 json.put("type", "turn");
                 json.put("client", "java");
                 json.put("tile", id);
                 json.put("myId", Main.myId);
                 json.put("enId", Main.enId);
-                //Main.server.send(json.toJSONString()); //TODO debug : server off
+                json.put("ses_id", Main.session);
+                Main.server.send(json.toJSONString()); //TODO debug : server off
+                r.checked = true;
                 break;
             }
         }/*

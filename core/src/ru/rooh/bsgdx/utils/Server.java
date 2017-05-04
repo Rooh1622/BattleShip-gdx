@@ -7,6 +7,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import ru.rooh.bsgdx.Main;
+import ru.rooh.bsgdx.game.GameWorld;
+import ru.rooh.bsgdx.mScreen;
 import ru.rooh.bsgdx.objects.Dot;
 import ru.rooh.bsgdx.objects.Map;
 
@@ -32,6 +34,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
         Main.connectionCallback();
 
         Main.server_status = 2;
+        Main.game_status = 0;
 
     }
 
@@ -48,8 +51,27 @@ public class Server extends org.java_websocket.client.WebSocketClient {
             } else if (jsonObject.get("type").equals("newGame")) {
                 System.out.println("> New Game " + jsonObject.get("msg"));
 
+                Main.game_status = 2;
                 Main.myId = ((Long) jsonObject.get("id")).intValue();
                 Main.enId = ((Long) jsonObject.get("e_id")).intValue();
+                Main.session = (String) jsonObject.get("ses_id");
+            } else if (jsonObject.get("type").equals("queue")) {
+                System.out.println("> Queue " + jsonObject.get("msg"));
+
+                int enId = ((Long) jsonObject.get("e_id")).intValue();
+                Main.game_status = 1;
+                if (enId == -1) return;
+
+                Main.enId = enId;
+                JSONObject json = new JSONObject();
+                json.put("type", "newGame");
+                json.put("myId", Main.myId);
+                json.put("enId", Main.enId);
+                Main.server.send(json.toJSONString());
+            } else if (jsonObject.get("type").equals("message")) {
+                System.out.println("> Message " + jsonObject.get("msg"));
+
+
             } else if (jsonObject.get("type").equals("turn")) {
 
                 System.out.println("> turn " + jsonObject.get("result"));
@@ -66,10 +88,11 @@ public class Server extends org.java_websocket.client.WebSocketClient {
 
                     //ArrayList<Integer> tile = new ArrayList<Integer>();
                     Iterator<Long> iterator = ja.iterator();
+                    GameWorld gw = ((GameWorld) ((mScreen) Main.game.getScreen()).world);
                     while (iterator.hasNext()) {
                         int cur_tile = iterator.next().intValue();
                         System.out.println("> " + cur_tile);
-                        Map.showConturOndestroy((int) cur_tile / 10, cur_tile % 10, 3, cur_tile);
+                        gw.getMap().showConturOndestroy((int) cur_tile / 10, cur_tile % 10, 3, cur_tile);
 
 
                     }
@@ -94,15 +117,17 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     int tile = ((Long) jsonObject.get("hTile")).intValue();
                     System.out.println("> turn_from_e" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
-                    Map.show.add(new Dot(tile, true, 2));
+                    Map.show_e.add(new Dot(tile, true, 2));
                     JSONArray ja = (JSONArray) parser.parse(jsonObject.get("tile").toString());
 
                     //ArrayList<Integer> tile = new ArrayList<Integer>();
                     Iterator<Long> iterator = ja.iterator();
+
+                    GameWorld gw = ((GameWorld) ((mScreen) Main.game.getScreen()).world);
                     while (iterator.hasNext()) {
                         int cur_tile = iterator.next().intValue();
                         System.out.println("> " + cur_tile);
-                        Map.showConturOndestroy((int) cur_tile / 10, cur_tile % 10, 4, cur_tile);
+                        gw.getMap().showConturOndestroy((int) cur_tile / 10, cur_tile % 10, 4, cur_tile);
 
 
                     }
@@ -114,7 +139,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     int tile = ((Long) jsonObject.get("tile")).intValue();
                     System.out.println("> turn_from_e" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
-                    Map.show.add(new Dot(tile, true, 3));
+                    Map.show_e.add(new Dot(tile, true, 4));
                 }
             }
 
@@ -139,6 +164,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
         Gdx.app.log("Server", "closed: " + s);
 
         Main.server_status = 0;
+        Main.game_status = 0;
     }
 
     @Override
@@ -147,6 +173,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
         Gdx.app.log("Server", "error");
         e.printStackTrace();
         Main.server_status = 1;
+        Main.game_status = 3;
 
         delay += 3;
         try {
@@ -156,7 +183,8 @@ public class Server extends org.java_websocket.client.WebSocketClient {
             Main.server = new Server();
             Main.server.connect();
         } catch (Exception e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            Gdx.app.log("Server", "Connection error");
         }
     }
 
@@ -170,7 +198,8 @@ public class Server extends org.java_websocket.client.WebSocketClient {
             Main.server = new Server();
             Main.server.connect();
         } catch (Exception e1) {
-            e1.printStackTrace();
+            //me1.printStackTrace();
+            Gdx.app.log("Server", "Reconnection error");
         }
 
     }

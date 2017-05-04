@@ -18,7 +18,7 @@ import ru.rooh.bsgdx.ui.StatusBar;
  */
 
 public class mScreen implements Screen{
-    private World world;
+    public World world;
 
 
     private ru.rooh.bsgdx.basics.Renderer renderer;

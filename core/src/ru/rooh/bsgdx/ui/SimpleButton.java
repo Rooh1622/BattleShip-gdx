@@ -8,7 +8,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import org.json.simple.JSONObject;
 import ru.rooh.bsgdx.Main;
+import ru.rooh.bsgdx.utils.AssetLoader;
 
 public class SimpleButton {
 
@@ -55,7 +57,7 @@ public class SimpleButton {
         } else {
             batcher.draw(buttonUp, x, y, width, height);
         }
-
+        batcher.draw(AssetLoader.pvpBtn, x, y + height * 1 + 5, width, height);
         //Gdx.app.log("Button", isPressed + "");
     }
 
@@ -63,6 +65,11 @@ public class SimpleButton {
         //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
         if (bounds.contains(screenX, screenY)) {
             isPressed = true;
+            JSONObject json = new JSONObject();
+            json.put("type", "queue");
+            json.put("myId", Main.myId);
+            Gdx.app.log("JSON", json.toJSONString() + "");
+            Main.server.send(json.toJSONString());
             Main.changeScreen("game");
             return true;
         }
