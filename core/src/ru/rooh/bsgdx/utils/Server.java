@@ -54,6 +54,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                 Main.game_status = 2;
                 Main.myId = ((Long) jsonObject.get("id")).intValue();
                 Main.enId = ((Long) jsonObject.get("e_id")).intValue();
+                Main.turn = ((Long) jsonObject.get("turn")).intValue();
                 Main.session = (String) jsonObject.get("ses_id");
             } else if (jsonObject.get("type").equals("queue")) {
                 System.out.println("> Queue " + jsonObject.get("msg"));
@@ -105,6 +106,8 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     System.out.println("> turn" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
                     Map.show.add(new Dot(tile, true, 3));
+
+                    Main.turn = Main.enId;
                 }
             } else if (jsonObject.get("type").equals("turn_from_e")) {
 
@@ -140,6 +143,8 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     System.out.println("> turn_from_e" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
                     Map.show_e.add(new Dot(tile, true, 4));
+
+                    Main.turn = Main.myId;
                 }
             }
 

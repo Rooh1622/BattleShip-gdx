@@ -15,7 +15,7 @@ public class AssetLoader {
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
     public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, transparent;
     public static TextureRegion switchBtn, switchBtnDark, pvpBtn;
-    public static TextureRegion blue, red;
+    public static TextureRegion blue, red, blueShip, redShip;
 
     public static Animation shipAnimation, internetAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -97,6 +97,12 @@ public class AssetLoader {
 
         shipUp = new TextureRegion(tShip, 0, 180, 1920, 900);
         shipUp.flip(false, true);
+
+        blueShip = new TextureRegion(texture, 206, 0, 10, 10);
+        blueShip.flip(false, true);
+
+        redShip = new TextureRegion(texture, 196, 0, 10, 10);
+        redShip.flip(false, true);
 
         playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
         playButtonUp.flip(false, true);
