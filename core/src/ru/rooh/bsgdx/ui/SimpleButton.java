@@ -63,7 +63,7 @@ public class SimpleButton {
 
     public boolean isTouchDown(int screenX, int screenY) {
         //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
-        if (bounds.contains(screenX, screenY)) {
+        if (bounds.contains(screenX, screenY) && Main.authorized) {
             isPressed = true;
             JSONObject json = new JSONObject();
             json.put("type", "queue");

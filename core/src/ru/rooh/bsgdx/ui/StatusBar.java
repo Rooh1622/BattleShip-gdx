@@ -58,20 +58,27 @@ public class StatusBar {
                 batcher.draw((TextureRegion) AssetLoader.iFull, 127, 1, 12, 13);
                 break;
         }
+        if (Main.turn == Main.myId) batcher.draw((TextureRegion) AssetLoader.redShip, 113, 3, 10, 10);
+        else if (Main.turn == Main.enId) batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
+        //batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
         //Gdx.app.log("Button", isPressed + "");
     }
 
     public boolean onClick(int screenX, int screenY) {
         //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
         if (settings.contains(screenX, screenY)) {
+            Main.dropGame();
             isPressed = true;
             Main.changeScreen("menu");
+
+
             return true;
         }
 
         if (internet.contains(screenX, screenY)) {
             Gdx.app.log("Button", internet.contains(screenX, screenY) + " lol");
-            Main.server.reconnect();
+            if (Main.authorized)
+                Main.server.reconnect();
             return true;
         }
 

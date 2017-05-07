@@ -21,8 +21,11 @@ import java.util.Iterator;
  */
 public class Server extends org.java_websocket.client.WebSocketClient {
     public static int delay = 1;
-    public Server() throws Exception {
-        super(new URI("ws://192.168.1.146:8081"));
+    private String token = "";
+
+    public Server(String token) throws Exception {
+        super(new URI("ws://192.168.1.149:8081/?access_token=" + token));
+        this.token = token;
         // this.connect();
 
     }
@@ -56,6 +59,9 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                 Main.enId = ((Long) jsonObject.get("e_id")).intValue();
                 Main.turn = ((Long) jsonObject.get("turn")).intValue();
                 Main.session = (String) jsonObject.get("ses_id");
+            } else if (jsonObject.get("type").equals("loginSuccess")) {
+                System.out.println("> TOKEN" + jsonObject.get("token"));
+
             } else if (jsonObject.get("type").equals("queue")) {
                 System.out.println("> Queue " + jsonObject.get("msg"));
 
@@ -185,7 +191,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
             System.out.println(delay);
             Thread.sleep(1000 * delay);
 
-            Main.server = new Server();
+            Main.server = new Server(Main.getToken());
             Main.server.connect();
         } catch (Exception e1) {
             //e1.printStackTrace();
@@ -200,7 +206,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
         try {
             System.out.println(delay);
 
-            Main.server = new Server();
+            Main.server = new Server(Main.getToken());
             Main.server.connect();
         } catch (Exception e1) {
             //me1.printStackTrace();
