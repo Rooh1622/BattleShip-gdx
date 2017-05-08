@@ -86,7 +86,7 @@ public class AuthServer extends org.java_websocket.client.WebSocketClient {
             System.out.println(delay);
             Thread.sleep(1000 * delay);
 
-            Main.auth_server = new AuthServer(token);
+            Main.auth_server = new AuthServer(Main.getAuth_token());
             Main.auth_server.connect();
         } catch (Exception e1) {
             //e1.printStackTrace();
@@ -101,7 +101,7 @@ public class AuthServer extends org.java_websocket.client.WebSocketClient {
         try {
             System.out.println(delay);
 
-            Main.auth_server = new AuthServer(token);
+            Main.auth_server = new AuthServer(Main.getAuth_token());
             Main.auth_server.connect();
         } catch (Exception e1) {
             //me1.printStackTrace();

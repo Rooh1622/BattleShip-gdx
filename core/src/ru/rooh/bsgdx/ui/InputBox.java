@@ -8,12 +8,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import org.json.simple.JSONObject;
 import ru.rooh.bsgdx.Main;
+import ru.rooh.bsgdx.utils.AssetLoader;
 
-public class SimpleButton {
+public class InputBox {
 
     private float x, y, width, height;
+    private Boolean hide;
 
     private TextureRegion buttonUp;
     private TextureRegion buttonDown;
@@ -24,8 +25,12 @@ public class SimpleButton {
 
     private float scale;
 
-    public SimpleButton(float x, float y, float width, float height,
-                        TextureRegion buttonUp, TextureRegion buttonDown) {
+
+    private String text = "";
+    private String mask = "";
+
+    public InputBox(float x, float y, float width, float height,
+                    TextureRegion buttonUp, TextureRegion buttonDown, Boolean hide) {
 
         this.scale = Gdx.graphics.getWidth() / 136f;
         this.x = x - width / 2f;
@@ -34,10 +39,11 @@ public class SimpleButton {
         this.height = height;
         this.buttonUp = buttonUp;
         this.buttonDown = buttonDown;
+        this.hide = hide;
 
 
         bounds = new Rectangle(this.x * Main.scaleX, this.y * Main.scaleY, width * Main.scaleX, height * Main.scaleY);
-        Gdx.app.log("Button", bounds.toString() + " " + x + "-" + y + "_" + width + "_" + height + " " + this.toString());
+        // Gdx.app.log("InputBox", bounds.toString() + " " + x + "-" + y + "_" + width + "_" + height + " " + this.toString());
 
     }
 
@@ -56,20 +62,32 @@ public class SimpleButton {
         } else {
             batcher.draw(buttonUp, x, y, width, height);
         }
-        //batcher.draw(AssetLoader.pvpBtn, x, y + height * 1 + 5, width, height);
+        if (hide) AssetLoader.font.draw(batcher, mask, x + 10, y + 3);
+        else AssetLoader.font.draw(batcher, text, x + 10, y + 3);
         //Gdx.app.log("Button", isPressed + "");
     }
 
     public boolean isTouchDown(int screenX, int screenY) {
         //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
-        if (bounds.contains(screenX, screenY) && Main.authorized) {
+        if (bounds.contains(screenX, screenY)) {
             isPressed = true;
-            JSONObject json = new JSONObject();
-            json.put("type", "queue");
-            json.put("myId", Main.myId);
-            Gdx.app.log("JSON", json.toJSONString() + "");
-            Main.server.send(json.toJSONString());
-            Main.changeScreen("game");
+            MyTextInputListener listener = new MyTextInputListener() {
+
+                @Override
+                public void input(String t) {
+                    mask = "";
+                    for (int i = 0; i < t.length(); i++) mask += '*';
+                    if (hide) Main.prePasswd = t;
+                    else Main.preLogin = t;
+                    text = t;
+                }
+
+                @Override
+                public void canceled() {
+                    // handle input cancel
+                }
+            };
+            Gdx.input.getTextInput(listener, "Login", "lol", "");
             return true;
         }
 
@@ -89,19 +107,5 @@ public class SimpleButton {
         return false;
     }
 
-    public boolean sendLogin(int screenX, int screenY) {
-        //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
-        if (bounds.contains(screenX, screenY)) {
-            isPressed = true;
-            try {
-                Main.loginCallback(Main.preLogin, Main.prePasswd);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-
-        return false;
-    }
 
 }

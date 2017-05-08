@@ -1,11 +1,14 @@
 package ru.rooh.bsgdx;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+/*import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;*/
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.simple.JSONObject;
 import ru.rooh.bsgdx.objects.Ship;
 import ru.rooh.bsgdx.utils.AssetLoader;
@@ -31,7 +34,9 @@ public class Main extends Game {
     public static String session = "";
     public static Game game;
     public static Boolean authorized = false;
+    public static String preLogin, prePasswd = "";
     private static String token = "-1";
+    private static String auth_token = "-1";
     SpriteBatch batch;
 	Texture img;
 
@@ -98,21 +103,32 @@ public class Main extends Game {
         return token;
     }
 
+    public static String getAuth_token() {
+        return auth_token;
+    }
+
+    public static void loginCallback(String login, String passwd) throws Exception {
+        String token = Jwts.builder()
+                .claim("login", login)
+                .claim("password", passwd)
+                .claim("type", "login")
+                .setIssuer("java")
+
+                .signWith(SignatureAlgorithm.HS512, "cmVn")
+                .compact();
+        auth_token = token;
+
+        Gdx.app.log("Token ", token);
+        auth_server = new AuthServer(token);
+        auth_server.connect();
+    }
+
 	@Override
 	public void create () {
 		Gdx.app.log("Main", "created");
         try {
             if (token.equals("-1")) {
-                Algorithm algorithm = Algorithm.HMAC256("reg");
-                String token = JWT.create()
-                        .withClaim("login", "rooh2")
-                        .withClaim("password", "rooh2")
-                        .withClaim("type", "login")
-                        .withIssuer("java")
-                        .sign(algorithm);
-                Gdx.app.log("Token ", token);
-                auth_server = new AuthServer(token);
-                auth_server.connect();
+
 
             } else {
                 server = new Server(token);
@@ -136,7 +152,9 @@ public class Main extends Game {
         this.midPointY = (int) (gameHeight / 2);
         this.midPointX = (int) (gameWidth / 2);
         game = this;
-		setScreen(new mScreen("menu"));
+
+        if (token.equals("-1")) setScreen(new mScreen("login"));
+        else setScreen(new mScreen("menu"));
 
 		//Gdx.app.log("Main", scale + "");
 	}

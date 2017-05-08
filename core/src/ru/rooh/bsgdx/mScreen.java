@@ -6,10 +6,14 @@ import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.game.GameInputHandler;
 import ru.rooh.bsgdx.game.GameRenderer;
 import ru.rooh.bsgdx.game.GameWorld;
+import ru.rooh.bsgdx.login.LoginInputHandler;
+import ru.rooh.bsgdx.login.LoginRenderer;
+import ru.rooh.bsgdx.login.LoginWorld;
 import ru.rooh.bsgdx.menu.MainMenuRenderer;
 import ru.rooh.bsgdx.menu.MenuInputHandler;
 import ru.rooh.bsgdx.menu.MenuWorld;
 import ru.rooh.bsgdx.objects.Map;
+import ru.rooh.bsgdx.ui.InputBox;
 import ru.rooh.bsgdx.ui.SimpleButton;
 import ru.rooh.bsgdx.ui.StatusBar;
 
@@ -44,6 +48,18 @@ public class mScreen implements Screen{
             SimpleButton s = ((MainMenuRenderer) renderer).getPlay();
             StatusBar bar = ((MainMenuRenderer) renderer).getStatusBar();
             Gdx.input.setInputProcessor(new MenuInputHandler(s, bar));
+            //Gdx.input.getTextInput(listener, "Dialog Title", "Initial Textfield Value", "Hint Value");
+        } else if (r.equals("login")) {
+            world = new LoginWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
+            renderer = new LoginRenderer(world);
+
+            InputBox login = ((LoginRenderer) renderer).lb;
+            InputBox passwd = ((LoginRenderer) renderer).pas;
+
+            SimpleButton go = ((LoginRenderer) renderer).go;
+            StatusBar bar = ((LoginRenderer) renderer).getStatusBar();
+            Gdx.input.setInputProcessor(new LoginInputHandler(login, passwd, go, bar));
+
         }
 
     }

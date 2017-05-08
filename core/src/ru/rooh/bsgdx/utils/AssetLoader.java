@@ -14,12 +14,13 @@ public class AssetLoader {
 
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
     public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, transparent;
-    public static TextureRegion switchBtn, switchBtnDark, pvpBtn;
+    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn;
     public static TextureRegion blue, red, blueShip, redShip;
+    public static TextureRegion inputBox, inputBd;
 
     public static Animation shipAnimation, internetAnimation;
     public static TextureRegion ship, shipDown, shipUp;
-    public static TextureRegion i1, i2, i3, i4, i5, i6, iFull, iNone;
+    public static TextureRegion i1, i2, i3, i4, i5, i6, iFull, iNone, iError;
 
     public static TextureRegion skullUp, skullDown, bar,playButtonUp,playButtonDown;
 
@@ -38,6 +39,16 @@ public class AssetLoader {
         //Buttons
         pvpBtn = new TextureRegion(texture, 0, 99, 29, 16);
         pvpBtn.flip(false, true);
+
+        goBtn = new TextureRegion(texture, 29, 99, 29, 16);
+        goBtn.flip(false, true);
+
+
+        inputBd = new TextureRegion(texture, 256, 0, 144, 128);
+        inputBd.flip(false, true);
+
+        inputBox = new TextureRegion(texture, 0, 0, 144, 24);
+        inputBox.flip(false, true);
 
 
         //
@@ -130,6 +141,9 @@ public class AssetLoader {
         i5.flip(false, true);
         i6 = new TextureRegion(texture, 244, 26, 12, 13);
         i6.flip(false, true);
+
+        iError = new TextureRegion(texture, 244, 104, 12, 13);
+        iError.flip(false, true);
 
         iFull = new TextureRegion(texture, 244, 0, 12, 13);
         iFull.flip(false, true);

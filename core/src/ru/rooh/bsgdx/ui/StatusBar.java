@@ -47,17 +47,19 @@ public class StatusBar {
 
     public void draw(SpriteBatch batcher, float runTime) {
         batcher.draw(bg, x, y, width, height);
-        switch (Main.server_status) {
-            case 0:
-                batcher.draw((TextureRegion) AssetLoader.iNone, 127, 1, 12, 13);
-                break;
-            case 1:
-                batcher.draw((TextureRegion) AssetLoader.internetAnimation.getKeyFrame(runTime), 127, 1, 12, 13);
-                break;
-            case 2:
-                batcher.draw((TextureRegion) AssetLoader.iFull, 127, 1, 12, 13);
-                break;
-        }
+        if (!Main.authorized) batcher.draw((TextureRegion) AssetLoader.iError, 127, 1, 12, 13);
+        else
+            switch (Main.server_status) {
+                case 0:
+                    batcher.draw((TextureRegion) AssetLoader.iNone, 127, 1, 12, 13);
+                    break;
+                case 1:
+                    batcher.draw((TextureRegion) AssetLoader.internetAnimation.getKeyFrame(runTime), 127, 1, 12, 13);
+                    break;
+                case 2:
+                    batcher.draw((TextureRegion) AssetLoader.iFull, 127, 1, 12, 13);
+                    break;
+            }
         if (Main.turn == Main.myId) batcher.draw((TextureRegion) AssetLoader.redShip, 113, 3, 10, 10);
         else if (Main.turn == Main.enId) batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
         //batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
@@ -79,6 +81,8 @@ public class StatusBar {
             Gdx.app.log("Button", internet.contains(screenX, screenY) + " lol");
             if (Main.authorized)
                 Main.server.reconnect();
+            else
+                Main.auth_server.reconnect();
             return true;
         }
 
