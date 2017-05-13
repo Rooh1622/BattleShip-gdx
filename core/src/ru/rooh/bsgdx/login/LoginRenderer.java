@@ -19,16 +19,17 @@ import ru.rooh.bsgdx.utils.AssetLoader;
 public class LoginRenderer extends Renderer {
     public InputBox lb;
     public InputBox pas;
-    public SimpleButton go;
+    public SimpleButton up, in;
     private ScrollHandler scroller;
     private Background frontGrass, backGrass;
     private TextureRegion background;
 
     public LoginRenderer(World world) {
         super(world);
-        lb = new InputBox(72, 35 + 12, 144, 24, AssetLoader.inputBox, AssetLoader.inputBox, false);
-        pas = new InputBox(72, 70 + 12, 144, 24, AssetLoader.inputBox, AssetLoader.inputBox, true);
-        go = new SimpleButton(midPointX, midPointY - 12, 29, 16, AssetLoader.goBtn, AssetLoader.goBtn);
+        lb = new InputBox(72, 15 + 12, 144, 24, AssetLoader.loginInputBox, AssetLoader.loginInputBox, false);
+        pas = new InputBox(72, 40 + 12, 144, 24, AssetLoader.passwdInputBox, AssetLoader.passwdInputBox, true);
+        up = new SimpleButton(midPointX / 2, midPointY - 12, 53, 16, AssetLoader.upBtn, AssetLoader.upBtn);
+        in = new SimpleButton(midPointX / 2 * 3, midPointY - 12, 53, 16, AssetLoader.inBtn, AssetLoader.inBtn);
         initGameObjects();
         initAssets();
 
@@ -63,12 +64,11 @@ public class LoginRenderer extends Renderer {
         batcher.enableBlending();
         lb.draw(batcher);
         pas.draw(batcher);
-        go.draw(batcher);
+        in.draw(batcher);
+        up.draw(batcher);
         statusBar.draw(batcher, runTime);
 
 
-        AssetLoader.shadow.draw(batcher, "Login", 0, 15);
-        AssetLoader.font.draw(batcher, "Login", 0, 15);
         // Заканчиваем SpriteBatch
         batcher.end();
 

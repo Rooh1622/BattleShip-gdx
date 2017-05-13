@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.simple.JSONObject;
+import ru.rooh.bsgdx.objects.Map;
 import ru.rooh.bsgdx.objects.Ship;
 import ru.rooh.bsgdx.utils.AssetLoader;
 import ru.rooh.bsgdx.utils.AuthServer;
@@ -35,8 +36,10 @@ public class Main extends Game {
     public static Game game;
     public static Boolean authorized = false;
     public static String preLogin, prePasswd = "";
+    public static String requestScreenSwap = "-1";
     private static String token = "-1";
     private static String auth_token = "-1";
+    private static String login = "-1";
     SpriteBatch batch;
 	Texture img;
 
@@ -73,14 +76,16 @@ public class Main extends Game {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        requestScreenSwap = "menu";
 
-
-        System.out.println("> MAIN TIKEN  " + Main.token);
+        // System.out.println("> MAIN TIKEN  " + Main.token);
     }
 
     public static void reset() {
         turn = 0; // 0 - not playing; 1 - red; 2 - blue;
         Ships = new ArrayList<Ship>();
+        Map.show_e.clear();
+        Map.show.clear();
         myId = -1;
         enId = -1;
         session = "";
@@ -107,20 +112,24 @@ public class Main extends Game {
         return auth_token;
     }
 
-    public static void loginCallback(String login, String passwd) throws Exception {
+    public static void loginCallback(String login, String passwd, String type) throws Exception {
         String token = Jwts.builder()
                 .claim("login", login)
                 .claim("password", passwd)
-                .claim("type", "login")
+                .claim("type", type)
                 .setIssuer("java")
 
                 .signWith(SignatureAlgorithm.HS512, "cmVn")
                 .compact();
+        Main.login = login;
         auth_token = token;
-
         Gdx.app.log("Token ", token);
         auth_server = new AuthServer(token);
         auth_server.connect();
+    }
+
+    public static String getLogin() {
+        return login;
     }
 
 	@Override

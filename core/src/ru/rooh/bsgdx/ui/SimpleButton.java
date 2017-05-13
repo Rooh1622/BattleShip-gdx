@@ -89,12 +89,12 @@ public class SimpleButton {
         return false;
     }
 
-    public boolean sendLogin(int screenX, int screenY) {
+    public boolean sendLogin(int screenX, int screenY, String type) {
         //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
         if (bounds.contains(screenX, screenY)) {
             isPressed = true;
             try {
-                Main.loginCallback(Main.preLogin, Main.prePasswd);
+                Main.loginCallback(Main.preLogin, Main.prePasswd, type);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -221,6 +221,12 @@ public class Server extends org.java_websocket.client.WebSocketClient {
         if (this.getReadyState().toString().equals("NOT_YET_CONNECTED")) Gdx.app.log("Server", "Not Connected");
         if (this.getReadyState().toString().equals("OPEN")) super.send(s);
 
+
+    }
+
+    public void sendJson(JSONObject json) {
+        json.put("login", Main.getLogin());
+        send(json.toJSONString());
     }
 
 }

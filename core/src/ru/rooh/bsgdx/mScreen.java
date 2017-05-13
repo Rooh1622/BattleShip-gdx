@@ -56,9 +56,10 @@ public class mScreen implements Screen{
             InputBox login = ((LoginRenderer) renderer).lb;
             InputBox passwd = ((LoginRenderer) renderer).pas;
 
-            SimpleButton go = ((LoginRenderer) renderer).go;
+            SimpleButton in = ((LoginRenderer) renderer).in;
+            SimpleButton up = ((LoginRenderer) renderer).up;
             StatusBar bar = ((LoginRenderer) renderer).getStatusBar();
-            Gdx.input.setInputProcessor(new LoginInputHandler(login, passwd, go, bar));
+            Gdx.input.setInputProcessor(new LoginInputHandler(login, passwd, in, up, bar));
 
         }
 
@@ -75,6 +76,10 @@ public class mScreen implements Screen{
         runTime += delta;
         world.update(delta);
         renderer.render(runTime);
+        if (Main.requestScreenSwap.equals("menu")) {
+            Main.changeScreen("menu");
+            Main.requestScreenSwap = "";
+        }
     }
 
     @Override

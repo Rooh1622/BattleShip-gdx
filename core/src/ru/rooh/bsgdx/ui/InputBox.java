@@ -87,7 +87,8 @@ public class InputBox {
                     // handle input cancel
                 }
             };
-            Gdx.input.getTextInput(listener, "Login", "lol", "");
+            if (hide) Gdx.input.getTextInput(listener, "Password", "", "");
+            else Gdx.input.getTextInput(listener, "Login", "", "");
             return true;
         }
 

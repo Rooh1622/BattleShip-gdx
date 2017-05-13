@@ -14,9 +14,9 @@ public class AssetLoader {
 
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
     public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, transparent;
-    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn;
+    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn, upBtn, inBtn;
     public static TextureRegion blue, red, blueShip, redShip;
-    public static TextureRegion inputBox, inputBd;
+    public static TextureRegion loginInputBox, passwdInputBox, inputBd;
 
     public static Animation shipAnimation, internetAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -43,12 +43,20 @@ public class AssetLoader {
         goBtn = new TextureRegion(texture, 29, 99, 29, 16);
         goBtn.flip(false, true);
 
+        upBtn = new TextureRegion(texture, 0, 67, 53, 16);
+        upBtn.flip(false, true);
+
+        inBtn = new TextureRegion(texture, 53, 67, 53, 16);
+        inBtn.flip(false, true);
+
 
         inputBd = new TextureRegion(texture, 256, 0, 144, 128);
         inputBd.flip(false, true);
 
-        inputBox = new TextureRegion(texture, 0, 0, 144, 24);
-        inputBox.flip(false, true);
+        loginInputBox = new TextureRegion(texture, 0, 0, 144, 24);
+        loginInputBox.flip(false, true);
+        passwdInputBox = new TextureRegion(texture, 0, 24, 144, 24);
+        passwdInputBox.flip(false, true);
 
 
         //

@@ -189,7 +189,6 @@ public class Map {
         pressed = false;*/
 
         batcher.draw(AssetLoader.switchBtn, x + width - 32, y + height + 5, 32, 20);
-        // TODO java.util.ConcurrentModificationException
         if (drawingField) {
             for (Dot i : show) {
                 if (i.id >= 0 && i.id <= 99)
@@ -265,7 +264,7 @@ public class Map {
                 json.put("myId", Main.myId);
                 json.put("enId", Main.enId);
                 json.put("ses_id", Main.session);
-                Main.server.send(json.toJSONString()); //TODO debug : server off
+                Main.server.sendJson(json); //TODO debug : server off
                 r.checked = true;
                 break;
             }

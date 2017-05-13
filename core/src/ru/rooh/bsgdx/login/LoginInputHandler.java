@@ -12,13 +12,14 @@ import ru.rooh.bsgdx.ui.StatusBar;
 public class LoginInputHandler extends InputHandler {
     private InputBox login;
     private InputBox passwd;
-    private SimpleButton go;
+    private SimpleButton in, up;
 
-    public LoginInputHandler(InputBox login, InputBox passwd, SimpleButton go, StatusBar statusBar) {
+    public LoginInputHandler(InputBox login, InputBox passwd, SimpleButton in, SimpleButton up, StatusBar statusBar) {
         super();
         this.login = login;
         this.passwd = passwd;
-        this.go = go;
+        this.in = in;
+        this.up = up;
         this.statusBar = statusBar;
     }
 
@@ -27,7 +28,8 @@ public class LoginInputHandler extends InputHandler {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         login.isTouchDown(screenX, screenY);
         passwd.isTouchDown(screenX, screenY);
-        go.sendLogin(screenX, screenY);
+        in.sendLogin(screenX, screenY, "login");
+        up.sendLogin(screenX, screenY, "reg");
         statusBar.onClick(screenX, screenY);
 
         Gdx.app.log("Handler", screenX + " " + screenY);
