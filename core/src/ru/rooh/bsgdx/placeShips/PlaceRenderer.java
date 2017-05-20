@@ -1,35 +1,29 @@
-package ru.rooh.bsgdx.login;
+package ru.rooh.bsgdx.placeShips;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.basics.Renderer;
 import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.objects.Background;
+import ru.rooh.bsgdx.objects.PlacerMap;
 import ru.rooh.bsgdx.objects.ScrollHandler;
-import ru.rooh.bsgdx.ui.InputBox;
-import ru.rooh.bsgdx.ui.SimpleButton;
-import ru.rooh.bsgdx.ui.StatusBar;
 import ru.rooh.bsgdx.utils.AssetLoader;
 
 /**
  * Created by rooh on 4/18/17.
  */
-public class LoginRenderer extends Renderer {
-    public InputBox lb;
-    public InputBox pas;
-    public SimpleButton up, in;
+public class PlaceRenderer extends Renderer {
+
     private ScrollHandler scroller;
     private Background frontGrass, backGrass;
     private TextureRegion background;
 
-    public LoginRenderer(World world) {
+    public PlaceRenderer(World world) {
         super(world);
-        lb = new InputBox(72, 15 + 12, 144, 24, AssetLoader.loginInputBox, AssetLoader.loginInputBox, false);
-        pas = new InputBox(72, 39 + 12, 144, 24, AssetLoader.passwdInputBox, AssetLoader.passwdInputBox, true);
-        up = new SimpleButton(midPointX / 2, midPointY - 12, 53, 16, AssetLoader.upBtn, AssetLoader.upBtn);
-        in = new SimpleButton(midPointX / 2 * 3, midPointY - 12, 53, 16, AssetLoader.inBtn, AssetLoader.inBtn);
+
         initGameObjects();
         initAssets();
 
@@ -39,6 +33,10 @@ public class LoginRenderer extends Renderer {
     public void render(float runTime) {
 
 
+        PlacerMap map = ((PlaceWorld) myWorld).getMap();
+
+        // Заполним задний фон одним цветом
+        // Заполним задний фон одним цветом
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -46,36 +44,39 @@ public class LoginRenderer extends Renderer {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Отрисуем Background цвет
-        //shapeRenderer.setColor(255 / 255.0f, 185 / 255.0f, 85 / 255.0f, 1);
-        //shapeRenderer.rect(0, 0, Main.gameWidth, midPointY);
+        shapeRenderer.setColor(135 / 255.0f, 184 / 255.0f, 223 / 255.0f, 1);
+        shapeRenderer.rect(0, 0, Main.gameWidth, midPointY + 66);
 
         // Заканчиваем ShapeRenderer
         shapeRenderer.end();
 
         // Стартуем SpriteBatch
         batcher.begin();
-        batcher.draw(AssetLoader.inputBd, 0, -8);
+
+        statusBar.draw(batcher, runTime);
+        drawGrass();
         // Отменим прозрачность
         // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
         batcher.disableBlending();
-        //batcher.draw(AssetLoader.sea, 0,midPointY/2 , 450* midPointY/243, midPointY);
-        drawGrass();
+        //batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
+
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
-        lb.draw(batcher);
-        pas.draw(batcher);
-        in.draw(batcher);
-        up.draw(batcher);
-        statusBar.draw(batcher, runTime);
+
+        // Отрисуем птичку на ее координатах. Получим Animation объект из AssetLoader
+        // Передадим runTime переменную чтобы получить текущий кадр.
+        map.draw(batcher);
 
 
+        //AssetLoader.shadow.draw(batcher, "hello world", 0, 0);
+        //AssetLoader.font.draw(batcher, "hello world", 0, 0);
         // Заканчиваем SpriteBatch
         batcher.end();
 
     }
 
     private void initGameObjects() {
-        scroller = ((LoginWorld) myWorld).getScroller();
+        scroller = myWorld.getScroller();
         frontGrass = scroller.getFrontGrass();
         backGrass = scroller.getBackGrass();
     }
@@ -90,14 +91,5 @@ public class LoginRenderer extends Renderer {
                 frontGrass.getWidth(), frontGrass.getHeight());
         batcher.draw(background, backGrass.getX(), backGrass.getY(),
                 backGrass.getWidth(), backGrass.getHeight());
-    }
-
-
-    public InputBox getPlay() {
-        return lb;
-    }
-
-    public StatusBar getStatusBar() {
-        return statusBar;
     }
 }

@@ -162,8 +162,9 @@ public class Main extends Game {
         this.midPointX = (int) (gameWidth / 2);
         game = this;
 
-        if (token.equals("-1")) setScreen(new mScreen("login"));
-        else setScreen(new mScreen("menu"));
+       /* if (token.equals("-1")) setScreen(new mScreen("login"));   //DEBUG
+        else setScreen(new mScreen("menu"));*/
+        setScreen(new mScreen("placeShips"));
 
 		//Gdx.app.log("Main", scale + "");
 	}

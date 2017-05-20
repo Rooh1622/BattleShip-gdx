@@ -5,6 +5,7 @@ import ru.rooh.bsgdx.utils.AssetLoader;
 
 public class Dot {
     Boolean show = false;
+    Boolean allowChange = true;
     int id = -1;
     int color = -1;
     TextureRegion texture;
@@ -30,4 +31,7 @@ public class Dot {
         texture = LastTexture;
     }*/
 
+    public void commit() {
+        this.allowChange = false;
+    }
 }

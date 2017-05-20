@@ -60,6 +60,7 @@ public class StatusBar {
                     batcher.draw((TextureRegion) AssetLoader.iFull, 127, 1, 12, 13);
                     break;
             }
+        batcher.draw((TextureRegion) AssetLoader.trophy, 17, 3, 9, 9);
         if (Main.turn == Main.myId) batcher.draw((TextureRegion) AssetLoader.redShip, 113, 3, 10, 10);
         else if (Main.turn == Main.enId) batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
         //batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
@@ -81,8 +82,6 @@ public class StatusBar {
             Gdx.app.log("Button", internet.contains(screenX, screenY) + " lol");
             if (Main.authorized)
                 Main.server.reconnect();
-            else
-                Main.auth_server.reconnect();
             return true;
         }
 

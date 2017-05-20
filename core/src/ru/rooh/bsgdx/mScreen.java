@@ -13,6 +13,10 @@ import ru.rooh.bsgdx.menu.MainMenuRenderer;
 import ru.rooh.bsgdx.menu.MenuInputHandler;
 import ru.rooh.bsgdx.menu.MenuWorld;
 import ru.rooh.bsgdx.objects.Map;
+import ru.rooh.bsgdx.objects.PlacerMap;
+import ru.rooh.bsgdx.placeShips.PlaceHandler;
+import ru.rooh.bsgdx.placeShips.PlaceRenderer;
+import ru.rooh.bsgdx.placeShips.PlaceWorld;
 import ru.rooh.bsgdx.ui.InputBox;
 import ru.rooh.bsgdx.ui.SimpleButton;
 import ru.rooh.bsgdx.ui.StatusBar;
@@ -41,6 +45,14 @@ public class mScreen implements Screen{
             StatusBar bar = (renderer).getStatusBar();
             Map map = ((GameWorld) world).getMap();
             Gdx.input.setInputProcessor(new GameInputHandler(((GameWorld) world).getDecorativeShip(), bar, map));
+        } else if (r.equals("placeShips")) {
+
+            world = new PlaceWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
+            renderer = new PlaceRenderer(world);
+
+            StatusBar bar = (renderer).getStatusBar();
+            PlacerMap map = ((PlaceWorld) world).getMap();
+            Gdx.input.setInputProcessor(new PlaceHandler(bar, map));
         } else if(r.equals("menu")){
             world = new MenuWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
             renderer = new MainMenuRenderer(world);

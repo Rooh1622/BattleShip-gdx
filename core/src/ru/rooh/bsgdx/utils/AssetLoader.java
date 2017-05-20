@@ -14,13 +14,14 @@ public class AssetLoader {
 
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
     public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, transparent;
-    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn, upBtn, inBtn;
+    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn, upBtn, inBtn, doneBtn, helpBtn, nextBtn;
     public static TextureRegion blue, red, blueShip, redShip;
     public static TextureRegion loginInputBox, passwdInputBox, inputBd;
+    public static TextureRegion trophy;
 
     public static Animation shipAnimation, internetAnimation;
     public static TextureRegion ship, shipDown, shipUp;
-    public static TextureRegion i1, i2, i3, i4, i5, i6, iFull, iNone, iError;
+    public static TextureRegion i1, i2, i3, i4, i5, i6, iFull, iNone, iError, iAuthError;
 
     public static TextureRegion skullUp, skullDown, bar,playButtonUp,playButtonDown;
 
@@ -36,6 +37,9 @@ public class AssetLoader {
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
+
+        trophy = new TextureRegion(texture, 144, 0, 9, 9);
+        trophy.flip(false, true);
         //Buttons
         pvpBtn = new TextureRegion(texture, 0, 99, 29, 16);
         pvpBtn.flip(false, true);
@@ -48,6 +52,15 @@ public class AssetLoader {
 
         inBtn = new TextureRegion(texture, 53, 67, 53, 16);
         inBtn.flip(false, true);
+
+        doneBtn = new TextureRegion(texture, 58, 103, 29, 16);
+        doneBtn.flip(false, true);
+
+        helpBtn = new TextureRegion(texture, 87, 103, 29, 16);
+        helpBtn.flip(false, true);
+
+        nextBtn = new TextureRegion(texture, 106, 67, 29, 16);
+        nextBtn.flip(false, true);
 
 
         inputBd = new TextureRegion(texture, 256, 0, 144, 128);
@@ -152,6 +165,9 @@ public class AssetLoader {
 
         iError = new TextureRegion(texture, 244, 104, 12, 13);
         iError.flip(false, true);
+
+        iAuthError = new TextureRegion(texture, 232, 104, 12, 13);
+        iAuthError.flip(false, true);
 
         iFull = new TextureRegion(texture, 244, 0, 12, 13);
         iFull.flip(false, true);
