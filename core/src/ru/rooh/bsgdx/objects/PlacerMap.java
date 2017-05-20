@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.utils.AssetLoader;
 
@@ -16,8 +18,8 @@ public class PlacerMap {
 
 
     public static CopyOnWriteArrayList<Dot> show = new CopyOnWriteArrayList<Dot>();
-    public static CopyOnWriteArrayList<Dot> stage_segment = new CopyOnWriteArrayList<Dot>();
-    private float rotation; // For handling bird rotation
+    public static ArrayList<Dot> stage_segment = new ArrayList<Dot>();
+    public static ArrayList<ArrayList<Dot>> Ships = new ArrayList<ArrayList<Dot>>();
     private float x;
     private float y;
     private int width;
@@ -110,7 +112,7 @@ public class PlacerMap {
         return neighbours <= 2;
     }
 
-    public Boolean check(CopyOnWriteArrayList<Dot> dots) {
+    public Boolean check(ArrayList<Dot> dots) {
         Boolean xchech = true, ycheck = true, xgapcheck = true, ygapcheck = true;
         int lastx = dots.get(0).id / 10;
         int lasty = dots.get(0).id % 10;
@@ -179,43 +181,52 @@ public class PlacerMap {
 
     }
 
-    public void onClick(int screenX, int screenY) {
-        if (doneBounds.contains(screenX / Main.scaleX, screenY / Main.scaleY)) {
-            if (stage == 1) {
-                if (stage_segment.size() == 1 && check((int) stage_segment.get(0).id / 10, (int) stage_segment.get(0).id % 10)) {
-                    stage_segment.clear();
-                    stage_repeat--;
-                    if (stage_repeat <= 0) {
-                        Gdx.app.log("Stage", "All Done!");
-                        done = true;
-                        return;
-                    }
-                    for (Dot d : show) d.commit();
-                    Gdx.app.log("Stage", "NEXT Stage is " + stage + " of " + stage_repeat + " parts");
+    public void nextStage() {
+        if (stage == 1) {
+            if (stage_segment.size() == 1 && check((int) stage_segment.get(0).id / 10, (int) stage_segment.get(0).id % 10)) {
+                Ships.add((ArrayList<Dot>) stage_segment.clone());
 
-                } else {
-
-                    Gdx.app.log("Stage", "WRONG");
-                }
-            } else if (check(stage_segment)) {
-                stage_segment.clear();
                 stage_repeat--;
-                for (Dot d : show) d.commit();
-                if (stage_repeat == 0) {
-                    if (stage == 4) stage_repeat = 2;
-                    else if (stage == 3) stage_repeat = 3;
-                    else if (stage == 2) stage_repeat = 4;
-                    else if (stage == 1) stage_repeat = 0;
-
-                    stage--;
-
-
+                stage_segment.clear();
+                if (stage_repeat <= 0) {
+                    Gdx.app.log("Stage", "All Done!");
+                    jsoniseField();
+                    //Main.server.sendJson(jsoniseField());
+                    done = true;
+                    return;
                 }
+                for (Dot d : show) d.commit();
                 Gdx.app.log("Stage", "NEXT Stage is " + stage + " of " + stage_repeat + " parts");
+
             } else {
 
                 Gdx.app.log("Stage", "WRONG");
             }
+        } else if (check(stage_segment)) {
+            Ships.add((ArrayList<Dot>) stage_segment.clone());
+            stage_repeat--;
+            for (Dot d : show) d.commit();
+            if (stage_repeat == 0) {
+                if (stage == 4) stage_repeat = 2;
+                else if (stage == 3) stage_repeat = 3;
+                else if (stage == 2) stage_repeat = 4;
+                else if (stage == 1) stage_repeat = 0;
+
+                stage--;
+
+
+            }
+            //System.out.println("Stage>>  " + Ships);
+            stage_segment.clear();
+            Gdx.app.log("Stage", "NEXT Stage is " + stage + " of " + stage_repeat + " parts");
+        } else {
+
+            Gdx.app.log("Stage", "WRONG");
+        }
+    }
+    public void onClick(int screenX, int screenY) {
+        if (doneBounds.contains(screenX / Main.scaleX, screenY / Main.scaleY)) {
+            nextStage();
             return;
         } else if (helpBounds.contains(screenX / Main.scaleX, screenY / Main.scaleY)) {
 
@@ -276,8 +287,21 @@ public class PlacerMap {
         return height;
     }
 
-    public float getRotation() {
-        return rotation;
+    public JSONArray jsoniseField() {
+        JSONArray json_root = new JSONArray();
+        System.out.println("Ships>>  " + Ships);
+        for (ArrayList<Dot> list : Ships) {
+            System.out.println("\tList>>  " + list);
+            JSONObject jsonShip = new JSONObject();
+            jsonShip.put("size", list.size());
+            for (int i = 0; i < list.size(); i++) {
+                jsonShip.put("c" + i, list.get(i).id);
+            }
+            json_root.add(jsonShip);
+        }
+
+        //System.out.println("JSON>>  " + json_root);
+        return json_root;
     }
 
     private class mRect extends Rectangle {

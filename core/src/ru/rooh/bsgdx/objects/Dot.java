@@ -34,4 +34,9 @@ public class Dot {
     public void commit() {
         this.allowChange = false;
     }
+
+    @Override
+    public String toString() {
+        return id + "";
+    }
 }

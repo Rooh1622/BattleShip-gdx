@@ -17,7 +17,7 @@ public class InputHandler implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode){
             case Input.Keys.ENTER:
-                Main.changeScreen("game");
+                //Main.changeScreen("game");
                 break;
             case Input.Keys.ESCAPE:
                 Main.changeScreen("menu");

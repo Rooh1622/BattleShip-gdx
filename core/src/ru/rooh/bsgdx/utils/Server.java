@@ -229,4 +229,13 @@ public class Server extends org.java_websocket.client.WebSocketClient {
         send(json.toJSONString());
     }
 
+    public void sendJson(JSONArray json) {
+        JSONObject payload = new JSONObject();
+        payload.put("login", Main.getLogin());
+        payload.put("iss", "java");
+        json.add(payload);
+        System.out.println("JSON>>>  " + json);
+        //send(json.toJSONString());
+    }
+
 }
