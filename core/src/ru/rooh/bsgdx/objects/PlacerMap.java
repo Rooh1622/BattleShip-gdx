@@ -26,7 +26,7 @@ public class PlacerMap {
     private int stage;
     private int stage_repeat;
     private ArrayList<mRect> table;
-    private Boolean moving = false;
+    private Boolean done = false;
     private Boolean pressed = false;
     private Boolean drawingField = true;
     private Boolean clickable = true;
@@ -79,30 +79,35 @@ public class PlacerMap {
     }
 
     public Boolean check(int x, int y) {
-
+        Boolean check = true;
         //System.out.println("\tx >  " + x);
         //System.out.println("\ty >  " + y);
-        ArrayList<Integer> dots = new ArrayList<Integer>();
-        dots.add(xyToId(x - 1, y - 1));
-        dots.add(xyToId(x - 1, y));
-        dots.add(xyToId(x - 1, y + 1));
-        dots.add(xyToId(x, y - 1));
-        dots.add(xyToId(x, y + 1));
-        dots.add(xyToId(x + 1, y - 1));
-        dots.add(xyToId(x + 1, y));
-        dots.add(xyToId(x + 1, y + 1));
+        ArrayList<Dot> dots = new ArrayList<Dot>();
+        dots.add(createDot(x - 1, y - 1));
+        dots.add(createDot(x - 1, y));
+        dots.add(createDot(x - 1, y + 1));
+        dots.add(createDot(x, y - 1));
+        dots.add(createDot(x, y + 1));
+        dots.add(createDot(x + 1, y - 1));
+        dots.add(createDot(x + 1, y));
+        dots.add(createDot(x + 1, y + 1));
         int neighbours = 0;
-        for (Integer id : dots) {
+        for (Dot d : dots) {
             for (Dot d2 : show) {
-                if (d2.id == id) {
+                if (d2.id == d.id) {
                     //System.out.println("Contains");
-
+                    if (!d2.allowChange) {
+                        check = false;
+                        System.out.println("Check >>  " + false);
+                        return false;
+                    }
                     neighbours++;
                 }
+
             }
         }
         System.out.println("COUNT >>  " + neighbours);
-        return neighbours == 0;
+        return neighbours <= 2;
     }
 
     public Boolean check(CopyOnWriteArrayList<Dot> dots) {
@@ -180,11 +185,14 @@ public class PlacerMap {
                 if (stage_segment.size() == 1 && check((int) stage_segment.get(0).id / 10, (int) stage_segment.get(0).id % 10)) {
                     stage_segment.clear();
                     stage_repeat--;
+                    if (stage_repeat <= 0) {
+                        Gdx.app.log("Stage", "All Done!");
+                        done = true;
+                        return;
+                    }
                     for (Dot d : show) d.commit();
                     Gdx.app.log("Stage", "NEXT Stage is " + stage + " of " + stage_repeat + " parts");
-                    if (stage_repeat == 0) {
-                        Gdx.app.log("Stage", "All Done!");
-                    }
+
                 } else {
 
                     Gdx.app.log("Stage", "WRONG");
@@ -213,7 +221,7 @@ public class PlacerMap {
 
             return;
         }
-
+        if (done) return;
         for (mRect r : table) {
             int cid = -1;
             int id = -1;
@@ -233,10 +241,10 @@ public class PlacerMap {
                 }
 
 
-                //if(check((int)d.id / 10,(int)d.id % 10)) {
-                show.add(d);
-                stage_segment.add(d);
-                //}
+                if (check((int) d.id / 10, (int) d.id % 10)) {
+                    show.add(d);
+                    stage_segment.add(d);
+                }
 
                 //System.out.println("Add  " );
                 //System.out.println("Check ><><>  " + check(stage_segment));
