@@ -190,8 +190,10 @@ public class PlacerMap {
                 stage_segment.clear();
                 if (stage_repeat <= 0) {
                     Gdx.app.log("Stage", "All Done!");
-                    jsoniseField();
-                    //Main.server.sendJson(jsoniseField());
+                    //jsoniseField();
+                    Main.server.sendJson(jsoniseField());
+                    Main.preset = jsoniseField();
+                    //sendJson(jsoniseField());
                     done = true;
                     return;
                 }
@@ -202,7 +204,7 @@ public class PlacerMap {
 
                 Gdx.app.log("Stage", "WRONG");
             }
-        } else if (check(stage_segment)) {
+        } else if (stage_segment.size() != 0 && check(stage_segment)) {
             Ships.add((ArrayList<Dot>) stage_segment.clone());
             stage_repeat--;
             for (Dot d : show) d.commit();
@@ -232,7 +234,10 @@ public class PlacerMap {
 
             return;
         }
-        if (done) return;
+        if (done) {
+            Main.server.sendJson(jsoniseField());
+            return;
+        }
         for (mRect r : table) {
             int cid = -1;
             int id = -1;

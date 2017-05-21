@@ -15,7 +15,7 @@ public class StatusBar {
 
     private TextureRegion bg;
 
-    private Rectangle settings, internet;
+    private Rectangle settings, internet, ip;
 
     private boolean isPressed = false;
 
@@ -32,6 +32,7 @@ public class StatusBar {
 
         settings = new Rectangle(0, 0, 15 * Main.scaleX, 15 * Main.scaleY);
         internet = new Rectangle(125 * Main.scaleX, 0, 19 * Main.scaleX, 15 * Main.scaleY);
+        ip = new Rectangle(30 * Main.scaleX, 0, 10 * Main.scaleX, 15 * Main.scaleY);
         //Gdx.app.log("Button", bounds.toString() + " " + x + "-" + y + "_" + width + "_" + height + " " + this.toString());
 
     }
@@ -61,6 +62,7 @@ public class StatusBar {
                     break;
             }
         batcher.draw((TextureRegion) AssetLoader.trophy, 17, 3, 9, 9);
+        batcher.draw((TextureRegion) AssetLoader.ip, 30, 3, 9, 9);
         if (Main.turn == Main.myId) batcher.draw((TextureRegion) AssetLoader.redShip, 113, 3, 10, 10);
         else if (Main.turn == Main.enId) batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
         //batcher.draw((TextureRegion) AssetLoader.blueShip, 113, 3, 10, 10);
@@ -76,13 +78,26 @@ public class StatusBar {
 
 
             return true;
-        }
-
-        if (internet.contains(screenX, screenY)) {
+        } else if (internet.contains(screenX, screenY)) {
             Gdx.app.log("Button", internet.contains(screenX, screenY) + " lol");
             if (Main.authorized)
                 Main.server.reconnect();
             return true;
+        } else if (ip.contains(screenX, screenY)) {
+            //Gdx.app.log("Button", internet.contains(screenX, screenY) + " lol");
+            MyTextInputListener listener = new MyTextInputListener() {
+
+                @Override
+                public void input(String t) {
+                    Main.ip = t;
+                }
+
+                @Override
+                public void canceled() {
+                    Main.ip = "192.168.1.149";
+                }
+            };
+            Gdx.input.getTextInput(listener, "IP - Debug", "192.168.1.149", "");
         }
 
         return false;

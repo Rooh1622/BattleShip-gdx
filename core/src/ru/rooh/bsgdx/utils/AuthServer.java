@@ -18,7 +18,7 @@ public class AuthServer extends org.java_websocket.client.WebSocketClient {
     private String token = "";
 
     public AuthServer(String token) throws Exception {
-        super(new URI("ws://192.168.1.149:8082/?access_token=" + token));
+        super(new URI("ws://" + Main.ip + ":8082/?access_token=" + token));
         // this.connect();
 
     }

@@ -24,7 +24,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
     private String token = "";
 
     public Server(String token) throws Exception {
-        super(new URI("ws://192.168.1.149:8081/?access_token=" + token));
+        super(new URI("ws://" + Main.ip + ":8081/?access_token=" + token));
         this.token = token;
         // this.connect();
 
@@ -61,6 +61,10 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                 Main.session = (String) jsonObject.get("ses_id");
             } else if (jsonObject.get("type").equals("loginSuccess")) {
                 System.out.println("> TOKEN" + jsonObject.get("token"));
+                Main.requestScreenSwap = "menu";
+            } else if (jsonObject.get("type").equals("saveFieldOK")) {
+                System.out.println("> FIELD " + jsonObject.get("result"));
+                Main.requestScreenSwap = "menu";
 
             } else if (jsonObject.get("type").equals("queue")) {
                 System.out.println("> Queue " + jsonObject.get("msg"));
@@ -231,11 +235,13 @@ public class Server extends org.java_websocket.client.WebSocketClient {
 
     public void sendJson(JSONArray json) {
         JSONObject payload = new JSONObject();
+        payload.put("type", "saveField");
         payload.put("login", Main.getLogin());
         payload.put("iss", "java");
-        json.add(payload);
-        System.out.println("JSON>>>  " + json);
-        //send(json.toJSONString());
+        //json.add(payload);
+        payload.put("ships", json);
+        System.out.println("JSON>>>  " + payload);
+        send(payload.toJSONString());
     }
 
 }

@@ -66,6 +66,8 @@ public class SimpleButton {
             isPressed = true;
             JSONObject json = new JSONObject();
             json.put("type", "queue");
+            json.put("usePreset", Main.usePreset);
+            json.put("login", Main.getLogin());
             json.put("myId", Main.myId);
             Gdx.app.log("JSON", json.toJSONString() + "");
             Main.server.send(json.toJSONString());
@@ -74,6 +76,12 @@ public class SimpleButton {
         }
 
         return false;
+    }
+
+    public boolean onTouch(int screenX, int screenY) {
+        //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
+        return bounds.contains(screenX, screenY) && Main.authorized;
+
     }
 
     public boolean isTouchUp(int screenX, int screenY) {
@@ -104,4 +112,17 @@ public class SimpleButton {
         return false;
     }
 
+    public boolean setup(int screenX, int screenY) {
+        //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
+        if (bounds.contains(screenX, screenY)) {
+            Main.requestScreenSwap = "placer";
+            return true;
+        }
+
+        return false;
+    }
+
+    public void setButtonUp(TextureRegion buttonUp) {
+        this.buttonUp = buttonUp;
+    }
 }

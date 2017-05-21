@@ -58,8 +58,10 @@ public class mScreen implements Screen{
             renderer = new MainMenuRenderer(world);
 
             SimpleButton s = ((MainMenuRenderer) renderer).getPlay();
+            SimpleButton setup = ((MainMenuRenderer) renderer).setup;
+            SimpleButton random = ((MainMenuRenderer) renderer).random;
             StatusBar bar = ((MainMenuRenderer) renderer).getStatusBar();
-            Gdx.input.setInputProcessor(new MenuInputHandler(s, bar));
+            Gdx.input.setInputProcessor(new MenuInputHandler(s, setup, random, bar));
             //Gdx.input.getTextInput(listener, "Dialog Title", "Initial Textfield Value", "Hint Value");
         } else if (r.equals("login")) {
             world = new LoginWorld((int) (Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 136) / 2)); // initialize world
@@ -90,6 +92,9 @@ public class mScreen implements Screen{
         renderer.render(runTime);
         if (Main.requestScreenSwap.equals("menu")) {
             Main.changeScreen("menu");
+            Main.requestScreenSwap = "";
+        } else if (Main.requestScreenSwap.equals("placer")) {
+            Main.changeScreen("placeShips");
             Main.requestScreenSwap = "";
         }
     }

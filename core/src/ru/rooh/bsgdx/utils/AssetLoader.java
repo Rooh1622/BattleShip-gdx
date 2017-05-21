@@ -14,10 +14,11 @@ public class AssetLoader {
 
     public static Texture texture, bg_sea, tShip, tMap, tstatusBar;
     public static TextureRegion bg, grass, sea, map, statusBar, cross, blueCross, miss, blueMiss, transparent;
-    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn, upBtn, inBtn, doneBtn, helpBtn, nextBtn;
+    public static TextureRegion switchBtn, switchBtnDark, pvpBtn, goBtn, upBtn, inBtn, doneBtn, helpBtn, nextBtn, setupBtn;
     public static TextureRegion blue, red, blueShip, redShip;
+    public static TextureRegion randomBtnBlue, randomBtnRed;
     public static TextureRegion loginInputBox, passwdInputBox, inputBd;
-    public static TextureRegion trophy;
+    public static TextureRegion trophy, ip;
 
     public static Animation shipAnimation, internetAnimation;
     public static TextureRegion ship, shipDown, shipUp;
@@ -40,9 +41,14 @@ public class AssetLoader {
 
         trophy = new TextureRegion(texture, 144, 0, 9, 9);
         trophy.flip(false, true);
+        ip = new TextureRegion(texture, 153, 0, 11, 9);
+        ip.flip(false, true);
         //Buttons
         pvpBtn = new TextureRegion(texture, 0, 99, 29, 16);
         pvpBtn.flip(false, true);
+
+        setupBtn = new TextureRegion(texture, 135, 67, 36, 16);
+        setupBtn.flip(false, true);
 
         goBtn = new TextureRegion(texture, 29, 99, 29, 16);
         goBtn.flip(false, true);
@@ -61,6 +67,12 @@ public class AssetLoader {
 
         nextBtn = new TextureRegion(texture, 106, 67, 29, 16);
         nextBtn.flip(false, true);
+
+        randomBtnBlue = new TextureRegion(texture, 124, 99, 46, 16);
+        randomBtnBlue.flip(false, true);
+
+        randomBtnRed = new TextureRegion(texture, 124, 83, 46, 16);
+        randomBtnRed.flip(false, true);
 
 
         inputBd = new TextureRegion(texture, 256, 0, 144, 128);

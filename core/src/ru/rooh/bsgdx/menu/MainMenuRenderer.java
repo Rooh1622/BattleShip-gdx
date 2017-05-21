@@ -17,7 +17,7 @@ import ru.rooh.bsgdx.utils.AssetLoader;
  * Created by rooh on 4/18/17.
  */
 public class MainMenuRenderer extends Renderer {
-    private SimpleButton play;
+    public SimpleButton play, setup, random;
     private ScrollHandler scroller;
     private Background frontGrass, backGrass;
     private TextureRegion background;
@@ -25,6 +25,8 @@ public class MainMenuRenderer extends Renderer {
     public MainMenuRenderer(World world) {
         super(world);
         play = new SimpleButton(midPointX, midPointY * 0.5f, 29, 16, AssetLoader.playButtonUp, AssetLoader.playButtonDown);
+        setup = new SimpleButton(midPointX, midPointY * 0.5f + 20, 36, 16, AssetLoader.setupBtn, AssetLoader.setupBtn);
+        random = new SimpleButton(midPointX, midPointY * 0.5f + 40, 46, 16, AssetLoader.randomBtnBlue, AssetLoader.randomBtnRed);
         initGameObjects();
         initAssets();
 
@@ -56,6 +58,8 @@ public class MainMenuRenderer extends Renderer {
         // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
         play.draw(batcher);
+        setup.draw(batcher);
+        random.draw(batcher);
         statusBar.draw(batcher, runTime);
 
 

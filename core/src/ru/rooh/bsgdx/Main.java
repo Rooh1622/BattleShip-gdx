@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import ru.rooh.bsgdx.objects.Map;
 import ru.rooh.bsgdx.objects.Ship;
@@ -32,11 +33,14 @@ public class Main extends Game {
     public static ArrayList<Ship> Ships = new ArrayList<Ship>();
     public static int myId = -1;
     public static int enId = -1;
+    public static String ip = "192.168.1.149";
     public static String session = "";
     public static Game game;
     public static Boolean authorized = false;
     public static String preLogin, prePasswd = "";
     public static String requestScreenSwap = "-1";
+    public static Boolean usePreset = false;
+    public static JSONArray preset = new JSONArray();
     private static String token = "-1";
     private static String auth_token = "-1";
     private static String login = "-1";
@@ -162,9 +166,9 @@ public class Main extends Game {
         this.midPointX = (int) (gameWidth / 2);
         game = this;
 
-       /* if (token.equals("-1")) setScreen(new mScreen("login"));   //DEBUG
-        else setScreen(new mScreen("menu"));*/
-        setScreen(new mScreen("placeShips"));
+        if (token.equals("-1")) setScreen(new mScreen("login"));   //DEBUG
+        else setScreen(new mScreen("menu"));
+        //setScreen(new mScreen("placeShips"));
 
 		//Gdx.app.log("Main", scale + "");
 	}
