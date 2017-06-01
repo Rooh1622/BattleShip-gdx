@@ -213,10 +213,7 @@ public class PlacerMap {
                 else if (stage == 3) stage_repeat = 3;
                 else if (stage == 2) stage_repeat = 4;
                 else if (stage == 1) stage_repeat = 0;
-
                 stage--;
-
-
             }
             //System.out.println("Stage>>  " + Ships);
             stage_segment.clear();
@@ -246,17 +243,13 @@ public class PlacerMap {
             if (cid != -1) {
                 id = cid;
                 Dot d = new Dot(id, true, 1);
-                //System.out.println(">> " + show.contains(d));
                 for (Dot d2 : show) {
                     if (d2.id == d.id && d2.allowChange) {
-                        //System.out.println("Contains");
                         show.remove(d2);
                         stage_segment.remove(d2);
                         return;
                     }
                 }
-
-
                 if (check((int) d.id / 10, (int) d.id % 10)) {
                     show.add(d);
                     stage_segment.add(d);

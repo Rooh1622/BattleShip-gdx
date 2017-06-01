@@ -148,7 +148,7 @@ public class Main extends Game {
                 server.connect();
             }
 
-            //server.connect(); // TODO DEBUG
+            //server.connect();
         } catch (Exception e) {
             e.printStackTrace();
         }

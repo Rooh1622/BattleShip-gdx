@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.basics.Renderer;
 import ru.rooh.bsgdx.basics.World;
 import ru.rooh.bsgdx.objects.Background;
@@ -28,8 +29,8 @@ public class LoginRenderer extends Renderer {
         super(world);
         lb = new InputBox(72, 15 + 12, 144, 24, AssetLoader.loginInputBox, AssetLoader.loginInputBox, false);
         pas = new InputBox(72, 39 + 12, 144, 24, AssetLoader.passwdInputBox, AssetLoader.passwdInputBox, true);
-        up = new SimpleButton(midPointX / 2, midPointY - 12, 53, 16, AssetLoader.upBtn, AssetLoader.upBtn);
-        in = new SimpleButton(midPointX / 2 * 3, midPointY - 12, 53, 16, AssetLoader.inBtn, AssetLoader.inBtn);
+        up = new SimpleButton(midPointX / 2 + 3, midPointY - 32, 53, 16, AssetLoader.upBtn, AssetLoader.upBtn);
+        in = new SimpleButton(midPointX / 2 * 3 + 3, midPointY - 32, 53, 16, AssetLoader.inBtn, AssetLoader.inBtn);
         initGameObjects();
         initAssets();
 
@@ -44,6 +45,8 @@ public class LoginRenderer extends Renderer {
 
         // Стартуем ShapeRenderer
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(135 / 255.0f, 184 / 255.0f, 223 / 255.0f, 1);
+        shapeRenderer.rect(0, 0, Main.gameWidth, midPointY + 66);
 
         // Отрисуем Background цвет
         //shapeRenderer.setColor(255 / 255.0f, 185 / 255.0f, 85 / 255.0f, 1);
@@ -54,9 +57,10 @@ public class LoginRenderer extends Renderer {
 
         // Стартуем SpriteBatch
         batcher.begin();
-        batcher.draw(AssetLoader.inputBd, 0, -8);
-        // Отменим прозрачность
-        // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
+        batcher.enableBlending();
+
+        batcher.draw(AssetLoader.inputBd, 0, -10);
+
         batcher.disableBlending();
         //batcher.draw(AssetLoader.sea, 0,midPointY/2 , 450* midPointY/243, midPointY);
         drawGrass();

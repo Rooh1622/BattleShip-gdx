@@ -71,7 +71,7 @@ public class StatusBar {
 
     public boolean onClick(int screenX, int screenY) {
         //Gdx.app.log("Button", bounds.contains(screenX, screenY) + "");
-        if (settings.contains(screenX, screenY)) {
+        if (settings.contains(screenX, screenY) && Main.game_status != 1) {
             Main.dropGame();
             isPressed = true;
             Main.changeScreen("menu");

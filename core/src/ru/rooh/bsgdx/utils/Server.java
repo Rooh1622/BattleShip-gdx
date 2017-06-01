@@ -11,6 +11,7 @@ import ru.rooh.bsgdx.game.GameWorld;
 import ru.rooh.bsgdx.mScreen;
 import ru.rooh.bsgdx.objects.Dot;
 import ru.rooh.bsgdx.objects.Map;
+import ru.rooh.bsgdx.ui.MyTextInputListener;
 
 import java.net.URI;
 import java.nio.channels.NotYetConnectedException;
@@ -59,6 +60,19 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                 Main.enId = ((Long) jsonObject.get("e_id")).intValue();
                 Main.turn = ((Long) jsonObject.get("turn")).intValue();
                 Main.session = (String) jsonObject.get("ses_id");
+                MyTextInputListener listener = new MyTextInputListener() {
+
+                    @Override
+                    public void input(String t) {
+
+                    }
+
+                    @Override
+                    public void canceled() {
+                        // handle input cancel
+                    }
+                };
+                Gdx.input.getTextInput(listener, "Yours ID is " + Main.myId, "Opponent ID is " + Main.enId, "");
             } else if (jsonObject.get("type").equals("loginSuccess")) {
                 System.out.println("> TOKEN" + jsonObject.get("token"));
                 Main.requestScreenSwap = "menu";

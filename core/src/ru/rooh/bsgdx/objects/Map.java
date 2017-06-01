@@ -78,8 +78,6 @@ public class Map {
         else if (y == 9) edge = 4;//right
         switch (edge) {
             case 3:
-                //console.log(edge);
-
                 createDot(x + 1, y + 1, true, c);
                 createDot(x, y + 1, true, c);
                 createDot(x - 1, y + 1, true, c);
@@ -94,7 +92,6 @@ public class Map {
                 createDot(x - 1, y, true, c);
                 break;
             case 1:
-
                 createDot(x + 1, y, true, c);
                 if (y != 0) {
 
@@ -132,7 +129,7 @@ public class Map {
         }
     }
 
-    private void createDot(int x, int y, Boolean lol, int c) {
+    private void createDot(int x, int y, Boolean show, int c) {
         Dot d = new Dot(xyToId(x, y), true, c);
         switch (c) {
             case 1:

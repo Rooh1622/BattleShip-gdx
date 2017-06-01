@@ -3,6 +3,7 @@ package ru.rooh.bsgdx.menu;
 import com.badlogic.gdx.Gdx;
 import ru.rooh.bsgdx.Main;
 import ru.rooh.bsgdx.basics.InputHandler;
+import ru.rooh.bsgdx.ui.MyTextInputListener;
 import ru.rooh.bsgdx.ui.SimpleButton;
 import ru.rooh.bsgdx.ui.StatusBar;
 import ru.rooh.bsgdx.utils.AssetLoader;
@@ -29,8 +30,24 @@ public class MenuInputHandler extends InputHandler {
         play.isTouchDown(screenX,screenY);
         if (random.onTouch(screenX, screenY)) {
             Main.usePreset = !Main.usePreset;
-            if (Main.usePreset) random.setButtonUp(AssetLoader.randomBtnRed);
+            if (Main.usePreset) {
+                random.setButtonUp(AssetLoader.randomBtnRed);
+                MyTextInputListener listener = new MyTextInputListener() {
+
+                    @Override
+                    public void input(String t) {
+
+                    }
+
+                    @Override
+                    public void canceled() {
+                        // handle input cancel
+                    }
+                };
+                Gdx.input.getTextInput(listener, "This feature is testing!", "It can cause issues on touch devices", "");
+            }
             else random.setButtonUp(AssetLoader.randomBtnBlue);
+
         }
         setup.setup(screenX, screenY);
         statusBar.onClick(screenX, screenY);
