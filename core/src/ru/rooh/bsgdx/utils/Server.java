@@ -130,6 +130,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     System.out.println("> turn" + jsonObject.get("result") + " tile " + tile);
                     //if (tile != -1)
                     Map.show.add(new Dot(tile, true, 3));
+                    Map.drawingField = false;
 
                     Main.turn = Main.enId;
                 }
@@ -168,6 +169,7 @@ public class Server extends org.java_websocket.client.WebSocketClient {
                     //if (tile != -1)
                     Map.show_e.add(new Dot(tile, true, 4));
 
+                    Map.drawingField = true;
                     Main.turn = Main.myId;
                 }
             }

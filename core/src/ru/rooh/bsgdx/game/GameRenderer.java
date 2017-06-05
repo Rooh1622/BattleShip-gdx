@@ -29,8 +29,6 @@ public class GameRenderer extends Renderer {
     }
     @Override
     public void render(float runTime) {
-
-        // мы уберем это из цикла далее, для улучшения производительности
         DecorativeShip decorativeShip = ((GameWorld) myWorld).getDecorativeShip();
         Map map = ((GameWorld) myWorld).getMap();
 
@@ -55,15 +53,12 @@ public class GameRenderer extends Renderer {
         statusBar.draw(batcher, runTime);
         drawGrass();
         // Отменим прозрачность
-        // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
         batcher.disableBlending();
         //batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
 
-        // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
 
-        // Отрисуем птичку на ее координатах. Получим Animation объект из AssetLoader
-        // Передадим runTime переменную чтобы получить текущий кадр.
+
         map.draw(batcher);
         batcher.draw((TextureRegion) AssetLoader.ship,
                 decorativeShip.getX(), decorativeShip.getY(), decorativeShip.getWidth() * 3, decorativeShip.getHeight() * 3);

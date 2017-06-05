@@ -35,8 +35,6 @@ public class PlaceRenderer extends Renderer {
 
         PlacerMap map = ((PlaceWorld) myWorld).getMap();
 
-        // Заполним задний фон одним цветом
-        // Заполним задний фон одним цветом
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -55,16 +53,11 @@ public class PlaceRenderer extends Renderer {
 
         statusBar.draw(batcher, runTime);
         drawGrass();
-        // Отменим прозрачность
-        // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
         batcher.disableBlending();
         //batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
 
-        // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
 
-        // Отрисуем птичку на ее координатах. Получим Animation объект из AssetLoader
-        // Передадим runTime переменную чтобы получить текущий кадр.
         map.draw(batcher);
 
 

@@ -33,7 +33,7 @@ public class Main extends Game {
     public static ArrayList<Ship> Ships = new ArrayList<Ship>();
     public static int myId = -1;
     public static int enId = -1;
-    public static String ip = "192.168.1.149";
+    public static String ip = "194.87.102.116";
     public static String session = "";
     public static Game game;
     public static Boolean authorized = false;

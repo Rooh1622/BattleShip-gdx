@@ -206,7 +206,6 @@ public class AssetLoader {
     }
 
     public static void dispose() {
-        // Мы должны избавляться от текстур, когда заканчивает работать с объектом в котором есть текстуры
         texture.dispose();
         font.dispose();
         shadow.dispose();

@@ -50,12 +50,9 @@ public class MainMenuRenderer extends Renderer {
 
         // Стартуем SpriteBatch
         batcher.begin();
-        // Отменим прозрачность
-        // Это хорошо для производительности, когда отрисовываем картинки без прозрачности
         batcher.disableBlending();
         //batcher.draw(AssetLoader.sea, 0,midPointY/2 , 450* midPointY/243, midPointY);
         drawGrass();
-        // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
         play.draw(batcher);
         setup.draw(batcher);

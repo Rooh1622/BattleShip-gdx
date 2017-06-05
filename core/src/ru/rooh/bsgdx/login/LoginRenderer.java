@@ -64,7 +64,6 @@ public class LoginRenderer extends Renderer {
         batcher.disableBlending();
         //batcher.draw(AssetLoader.sea, 0,midPointY/2 , 450* midPointY/243, midPointY);
         drawGrass();
-        // Птичке нужна прозрачность, поэтому включаем ее
         batcher.enableBlending();
         lb.draw(batcher);
         pas.draw(batcher);

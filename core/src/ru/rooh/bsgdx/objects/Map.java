@@ -17,6 +17,7 @@ public class Map {
 
     public static CopyOnWriteArrayList<Dot> show = new CopyOnWriteArrayList<Dot>();
     public static ArrayList<Dot> show_e = new ArrayList<Dot>();
+    public static Boolean drawingField = true;
     private float rotation; // For handling bird rotation
     private float x;
     private float y;
@@ -26,7 +27,6 @@ public class Map {
     private ArrayList<mRect> table;
     private Boolean moving = false;
     private Boolean pressed = false;
-    private Boolean drawingField = true;
     private Boolean clickable = true;
     private Rectangle bounds;
 

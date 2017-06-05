@@ -86,13 +86,11 @@ public class SimpleButton {
 
     public boolean isTouchUp(int screenX, int screenY) {
 
-        // Мы будем учитывать только touchUp в нажатом состоянии.
         if (bounds.contains(screenX, screenY) && isPressed) {
             isPressed = false;
             return true;
         }
 
-        // Когда палец с кнопки уберут, мы очистим флаг, что кнопка нажатая.
         isPressed = false;
         return false;
     }
